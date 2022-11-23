@@ -1,0 +1,23 @@
+<mat-toolbar *ngIf="isruta()">
+
+  <a routerLink="publicaciones"  class="hover:bg-sky-200  hover:transition duration-700  hover:rounded-xl p-2 text-xl ml-8" routerLinkActive="bg-sky-200  rounded-xl">Publicaciones</a>
+
+  <span class="example-spacer" ></span>
+
+  <button class="mr-4" mat-icon-button [matMenuTriggerFor]="perfil" aria-label="Example icon-button with a menu">
+    <img class="h-10 w-10 rounded-full object-cover" src="https://imgs.search.brave.com/NX9i9GYDF9nU7jW7Jew8C_dJ-Cyq2Vwrg3dyQ_mnGIQ/rs:fit:1200:1200:1/g:ce/aHR0cDovL2hpZ2hs/aW5ld2VzdC5jb20v/d3Avd3AtY29udGVu/dC91cGxvYWRzLzIw/MTYvMDEvcHJvZmVz/c2lvbmFsLWxpbmtl/ZGluLXByb2ZpbGUt/cGhvdG9zLXZhbmNv/dXZlci1iYy1rZW5u/eS5qcGc">
+  </button>
+
+  <mat-menu #perfil="matMenu">
+
+    <button  class="transition duration-500 text-base font-bold rounded-md mx-1" mat-menu-item>
+      <a routerLink="perfil" routerLinkActive="bg-sky-200 rounded-md mx-1"  class="flex items-center p-2 gap-2 transition duration-500 text-base font-bold">
+        <img class="h-7 w-7 rounded-full object-cover" src="https://imgs.search.brave.com/NX9i9GYDF9nU7jW7Jew8C_dJ-Cyq2Vwrg3dyQ_mnGIQ/rs:fit:1200:1200:1/g:ce/aHR0cDovL2hpZ2hs/aW5ld2VzdC5jb20v/d3Avd3AtY29udGVu/dC91cGxvYWRzLzIw/MTYvMDEvcHJvZmVz/c2lvbmFsLWxpbmtl/ZGluLXByb2ZpbGUt/cGhvdG9zLXZhbmNv/dXZlci1iYy1rZW5u/eS5qcGc">
+        <span>Perfil de Adrián Urbano</span>
+      </a>
+    </button>
+
+    <button  class="transition duration-500 text-base font-bold rounded-md mx-1" mat-menu-item>Cerrar Sesión</button>
+
+  </mat-menu>
+</mat-toolbar>
