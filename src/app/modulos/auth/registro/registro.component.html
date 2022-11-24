@@ -42,7 +42,7 @@
 
           <div *ngIf="RegisterForm.get('username')?.dirty && RegisterForm.get('username')?.errors?.['required']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este campo es requerido</div>
           <div *ngIf="RegisterForm.get('username')?.dirty && RegisterForm.get('username')?.errors?.['maxlength']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">El máximo de caracteres es de 10</div>
-          <div *ngIf="RegisterForm.get('username')?.dirty && RegisterForm.get('username')?.errors?.['yaenuso']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este nombre de usuario Ya esta en uso</div>
+          <div *ngIf="RegisterForm.get('username')?.dirty && RegisterForm.get('username')?.errors?.['EnUso']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este nombre de usuario Ya esta en uso</div>
         </div>
 
         <div class="relative mt-2 rounded-lg shadow-md shadow-gray-100" >
@@ -58,7 +58,7 @@
 
           <div *ngIf="RegisterForm.get('email')?.dirty && RegisterForm.get('email')?.errors?.['required']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este campo es requerido</div>
           <div *ngIf="RegisterForm.get('email')?.dirty && RegisterForm.get('email')?.errors?.['email']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este campo sólo se permite correo electronico válido</div>
-          <div *ngIf="RegisterForm.get('email')?.dirty && RegisterForm.get('email')?.errors?.['yaregistrado']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este correo Ya esta en uso</div>
+          <div *ngIf="RegisterForm.get('email')?.dirty && RegisterForm.get('email')?.errors?.['registrado']" class="my-1 text-red-600 transition duration-700 bg-gray-50 rounded-lg px-2 text-md">Este correo Ya esta en uso</div>
         </div>
 
         <div class="relative mt-2 rounded-lg shadow-md shadow-gray-100" >
