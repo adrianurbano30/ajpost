@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 
 @Component({
@@ -9,10 +10,8 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
 
-  constructor(private router:Router)
-  {
-    console.log('la ruta actual->',this.router.url);
-  }
+  constructor(private router:Router,private authsvc:AuthService)
+  {}
 
   isruta():Boolean{
     let bandera:Boolean = false;
@@ -23,5 +22,10 @@ export class NavbarComponent {
       bandera=true;
       return bandera
     }
+  }
+  cerrarSesion(){
+    this.authsvc.cerrarSesion().subscribe(res=>{
+      this.router.navigate(['auth/login']);
+    });
   }
 }

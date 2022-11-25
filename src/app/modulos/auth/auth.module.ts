@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { JwtInterceptor } from 'src/app/interceptors/jwt.interceptor';
 
 
 @NgModule({
@@ -24,7 +25,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
     HttpClientModule
   ],providers:
   [
-    CookieService
+    CookieService,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:JwtInterceptor,
+      multi:true
+    }
   ]
 })
 export class AuthModule { }

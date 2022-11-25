@@ -4,6 +4,7 @@ import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Thevalidaciones } from 'src/app/util/thevalidaciones';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-registro',
@@ -21,7 +22,7 @@ export class RegistroComponent {
   iconpassword = faLock;
   iconpasscheck = faCheckDouble;
 
-  constructor(private fb:FormBuilder,private router:Router,private authsvc:AuthService)
+  constructor(private fb:FormBuilder,private router:Router,private authsvc:AuthService,private cookiesvc:CookieService)
   {
     this.RegisterForm = this.forminit();
   }
@@ -43,7 +44,16 @@ export class RegistroComponent {
   }
 
   registrate(){
+    this.authsvc.registro(this.RegisterForm.value).subscribe(respuesta=>{
 
+      this.authsvc.usuarioLogueado.subscribe(usuario=>{
+        console.log('usuario logueado behavior subject->',usuario);
+      });
+
+      if (respuesta) {
+         this.router.navigate(['publicaciones']);
+      }
+    });
   }
 
 }
