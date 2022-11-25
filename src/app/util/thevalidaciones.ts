@@ -10,7 +10,7 @@ export class Thevalidaciones{
       const valorCampo = control.value;
       return auth.usernameExiste(valorCampo).pipe(
         map(respuesta=>{
-          console.log(respuesta.mensaje);
+          //console.log(respuesta.mensaje);
           return respuesta.mensaje=='FALSE'? null :{EnUso:true}
         })
       )
@@ -22,7 +22,7 @@ export class Thevalidaciones{
       const valorCampo = control.value;
       return auth.emailExiste(valorCampo).pipe(
         map(respuesta=>{
-            console.log(respuesta.mensaje);
+            //console.log(respuesta.mensaje);
             return respuesta.mensaje=='FALSE'? null : {registrado:true}
         })
       )

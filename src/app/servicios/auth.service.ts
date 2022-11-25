@@ -12,10 +12,25 @@ export class AuthService {
   api:string='http://localhost/laravel/JWT_backend/public/api';
   usuario!:User;
   public usuarioLogueado = new BehaviorSubject<User>(this.usuario);
+  public hayerrores$ = new Subject<boolean>();
+  public msjerror$ = new Subject<string>();
   public hayerrores  = new BehaviorSubject<boolean>(false);
   public msjerror = new BehaviorSubject<string>('');
 
   constructor(private http:HttpClient,private cookiesvc:CookieService) { }
+
+  inicioSesion(usuario:User):Observable<any>{
+    return this.http.post<any>(`${this.api}/login`,usuario)
+    .pipe(
+      tap(
+        (respuesta:any)=>{
+          let usuario:User = respuesta.usuario;
+          this.usuarioLogueado.next(usuario);
+          this.cookiesvc.set('token',respuesta.token);
+        }
+      )
+    )
+  }
 
   registro(usuario:User):Observable<any>{
     return this.http.post<User>(`${this.api}/register`,usuario)
@@ -42,14 +57,12 @@ export class AuthService {
   }
 
   cerrarSesion():Observable<any>{
-    console.log('token antes de enviar al server->',this.cookiesvc.get('token'));
     let token:string = this.cookiesvc.get('token');
     return this.http.post<any>(`${this.api}/logout`,token)
     .pipe(
       tap(
         (respuesta)=>{
-          console.log('respuesta pipe->',respuesta);
-
+          console.log('respuesta server->',respuesta);
           this.usuarioLogueado.next(this.usuario);
           this.cookiesvc.deleteAll();
         }
@@ -58,11 +71,11 @@ export class AuthService {
   }
 
   errorServer(error:any){
-    this.hayerrores.next(true);
-    this.msjerror.next(error);
+    this.hayerrores$.next(true);
+    this.msjerror$.next(error);
 
     setTimeout(() => {
-      this.hayerrores.next(false)
+      this.hayerrores$.next(false)
     }, 7000);
   }
 
