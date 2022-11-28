@@ -1,4 +1,4 @@
-<div class="rounded-lg bg-gray-50  border-2 border-white py-2 shadow-gray-600 shadow-md my-2">
+<div class="rounded-sm bg-gray-50  border-2 border-white py-2 shadow-sky-900 shadow-md my-2">
 
   <!-- top de la publicacion -->
 
@@ -50,7 +50,7 @@
 
     <!--cantidad de imgs 1-->
     <div class="flex items-center justify-center h-full">
-      <div  class="grid grid-cols-1 h-auto w-full" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==1">
+      <div  class="grid grid-cols-1 h-auto w-full" *ngIf="cantElementosArray(publicacion.Imagenes)==1">
         <div *ngFor="let img of publicacion.Imagenes" >
                <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
         </div>
@@ -59,38 +59,35 @@
     <!--end cantidad de imgs 1 -->
 
     <!--cantidad de imgs 2-->
-    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==2">
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)==2">
       <div *ngFor="let img of publicacion.Imagenes" >
-        <!-- <img  class="object-cover w-full h-full" src="http://jwt_backend.test/{{img.url}}"> -->
         <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
       </div>
     </div>
     <!--end cantidad de imgs2-->
 
     <!--cantidad de imgs 3-->
-    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==3">
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)==3">
       <div *ngFor="let img of publicacion.Imagenes ; let i = index" [ngClass]="{'row-span-3 h-96': i===0,'h-48':i>0}" >
-        <!-- <img  class="object-cover w-full h-full" src="http://jwt_backend.test/{{img.url}}"> -->
         <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
       </div>
     </div>
     <!--end cantidad de imgs 3-->
 
     <!--cantidad de imgs 4-->
-    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==4">
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)==4">
       <div *ngFor="let img of publicacion.Imagenes ; let i = index" [ngClass]="{'row-span-3 h-96': i===0,'h-32':i>0}" >
-        <!-- <img  class="object-cover w-full h-full" src="http://jwt_backend.test/{{img.url}}"> -->
         <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
       </div>
     </div>
     <!--end cantidad de imgs 4-->
 
     <!--cantidad de imgs >4-->
-    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)>=5">
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)>=5">
       <div *ngFor="let img of publicacion.Imagenes | slice:0:4 ; let i = index" class="relative" [ngClass]="{'row-span-3 h-96': i===0,'h-32':i>0}" >
         <img  *ngIf="i<4" [ngClass]="{'blur-sm': i==3}" class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
         <p *ngIf="i==3" style="top: 50%;right:50%;user-select: none" class="absolute flex items-center justify-center text-4xl font-extrabold text-center text-blue-600 transition duration-500 hover:text-sky-300 ">
-          + {{cantidadImagenesPublicadas(publicacion.Imagenes)-4}}
+          + {{cantElementosArray(publicacion.Imagenes)-4}}
         </p>
       </div>
     </div>
@@ -103,21 +100,22 @@
   <!-- bottom de publicacion -->
 
   <div class="flex items-center justify-between px-2 py-1">
+
     <!-- THE likes  -->
 
       <div class="flex items-center justify-center">
 
         <div class="relative">
           <fa-icon (mouseout)="megustaMSG=false" (mouseover)="megustaMSG=true" (click)="crearlike()" [ngClass]="{'text-sky-500 ': likedBy()}" class="w-auto p-1 mr-1 text-lg transition duration-700 rounded-full cursor-pointer" [icon]="iconoLike"  > </fa-icon>
-          <div class="absolute left-0 z-50 w-20 font-bold text-center text-white transition duration-500 bg-gray-800 -top-6 bg-opacity-80" *ngIf="megustaMSG">
+          <div  *ngIf="megustaMSG" class="absolute left-0 z-50 w-20 font-bold text-center text-base text-white transition duration-500 bg-gray-800 -top-6 bg-opacity-80">
             <span>Me gusta</span>
           </div>
         </div>
 
         <div class="relative">
-          <span (mouseout)="whoLikepost=false" (mouseover)="whoLikepost=true" class="p-1 text-base text-gray-600">{{cantLikes()==0?'':cantLikes()}}</span>
-          <div *ngIf="whoLikepost && usersWholikepost.length>0" class="absolute z-50 w-48 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 left-3" >
-            <span class="flex items-center w-auto gap-1 text-xs text-white" *ngFor="let usuario of usersWholikepost">
+          <span (mouseout)="whoLikepost=false" (mouseover)="whoLikepost=true" class="p-1 text-base text-gray-600">{{cantElementosArray(megusta)==0?'':cantElementosArray(megusta)}}</span>
+          <div *ngIf="whoLikepost && cantElementosArray(usuariosLike)>0" class="absolute z-50 w-48 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 left-3" >
+            <span class="flex items-center w-auto gap-1 text-xs text-white" *ngFor="let usuario of usuariosLike">
               <span>{{usuario.name}}</span><span>{{usuario.lastname}}</span>
             </span>
           </div>
@@ -126,8 +124,33 @@
       </div>
 
     <!--END THE likes  -->
+
+    <!--ICON,CANTIDAD,QUIENES THE Comentarios -->
+
+      <div class="flex items-center">
+        <div class="relative">
+          <span (mouseout)="whoCommentPost=false" (mouseover)="whoCommentPost=true" class="p-1 text-base text-gray-600">{{cantComentarios()==0?'':cantComentarios()}}</span>
+         <div *ngIf="whoCommentPost && cantComentarios()>0" class="absolute z-50 w-40 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 right-12">
+            <span class="flex w-auto gap-1 text-xs text-white it ems-center" *ngFor="let usuario of userWhoCommenpost">
+              <span>{{usuario.name}}</span><span>{{usuario.lastname}}</span>
+            </span>
+          </div>
+          <fa-icon (click)="comentarioslista=!comentarioslista" (mouseout)="comentariosMSG=false" (mouseover)="comentariosMSG=true" class="w-auto p-1 mr-2 text-lg rounded-full cursor-pointer" [icon]="iconoComentarios"  ></fa-icon>
+          <div class="absolute left-0 z-50 w-28 p-1 font-bold text-center text-base text-white transition duration-500 bg-gray-800 -top-6 bg-opacity-80" *ngIf="comentariosMSG">
+            <span>Comentarios</span>
+          </div>
+        </div>
+      </div>
+
+    <!--END ICON,CANTIDAD,QUIENES THE Comentarios -->
+
   </div>
 
+    <!-- LISTA DE COMENTARIOS -->
+  <div  class="w-full pt-2 my-1 border-t-2 border-gray-200 " *ngIf="comentarioslista">
+
+  </div>
+    <!-- LISTA DE COMENTARIOS -->
   <!--END bottom de publicacion -->
 
 </div>

@@ -46,9 +46,6 @@ export class RegistroComponent {
   registrate(){
     this.authsvc.registro(this.RegisterForm.value).subscribe(respuesta=>{
 
-      this.authsvc.usuarioLogueado.subscribe(usuario=>{
-        console.log('usuario logueado behavior subject->',usuario);
-      });
 
       if (respuesta) {
          this.router.navigate(['publicaciones']);

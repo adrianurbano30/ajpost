@@ -11,7 +11,7 @@ export class AuthService {
 
   api:string='http://localhost/laravel/JWT_backend/public/api';
   usuario!:User;
-  public usuarioLogueado = new BehaviorSubject<User>(this.usuario);
+  public usuarioLogueado$ = new Subject<User>();
   public hayerrores$ = new Subject<boolean>();
   public msjerror$ = new Subject<string>();
   public hayerrores  = new BehaviorSubject<boolean>(false);
@@ -25,7 +25,7 @@ export class AuthService {
       tap(
         (respuesta:any)=>{
           let usuario:User = respuesta.usuario;
-          this.usuarioLogueado.next(usuario);
+          this.usuarioLogueado$.next(usuario);
           this.cookiesvc.set('token',respuesta.token);
         }
       )
@@ -40,7 +40,7 @@ export class AuthService {
           if (respuesta) {
             this.cookiesvc.set('token',respuesta.token);
             let usuario:User = respuesta.usuario;
-            this.usuarioLogueado.next(usuario);
+            this.usuarioLogueado$.next(usuario);
           }
         }
       )
@@ -63,7 +63,7 @@ export class AuthService {
       tap(
         (respuesta)=>{
           console.log('respuesta server->',respuesta);
-          this.usuarioLogueado.next(this.usuario);
+          this.usuarioLogueado$.next(this.usuario);
           this.cookiesvc.deleteAll();
         }
       )

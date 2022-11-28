@@ -1,10 +1,11 @@
-import { Component,Input,Output,EventEmitter } from '@angular/core';
+import { Component,Input,Output,EventEmitter, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { faCalendarDay, faComment, faEllipsisV, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Comentario } from 'src/app/modelos/Comentario';
 import { Like } from 'src/app/modelos/Like';
 import { Publicacion } from 'src/app/modelos/Publicacion';
 import { User } from 'src/app/modelos/User';
+import { LikeService } from 'src/app/servicios/like.service';
 import { ActualizarPublicacionComponent } from '../modals/actualizar-publicacion/actualizar-publicacion.component';
 import { EliminarPublicacionComponent } from '../modals/eliminar-publicacion/eliminar-publicacion.component';
 
@@ -13,7 +14,7 @@ import { EliminarPublicacionComponent } from '../modals/eliminar-publicacion/eli
   templateUrl: './publicacion-item.component.html',
   styleUrls: ['./publicacion-item.component.scss']
 })
-export class PublicacionItemComponent {
+export class PublicacionItemComponent implements OnInit{
 
   @Input () publicacion!:Publicacion;
   @Input() UsuarioLogged!:User;
@@ -26,7 +27,7 @@ export class PublicacionItemComponent {
   iconoComentarios=faComment;
   megusta:Like[]=[];
   comentariosList:Comentario[]=[];
-  usersWholikepost:User[]=[];
+  usuariosLike:User[]=[];
   userWhoCommenpost:User[]=[];
   whoLikepost:Boolean=false;
   whoCommentPost:Boolean=false;
@@ -37,9 +38,15 @@ export class PublicacionItemComponent {
   comentario!:string;
 
   constructor(
-    private modal:MatDialog
+    private modal:MatDialog,
+    private likesvc:LikeService
   )
   {}
+  ngOnInit(): void {
+
+    this.loadMegusta();
+
+  }
 
   //CRUD PUBLICACIONES
   abrirModalActualizarPublicacion():void{
@@ -107,19 +114,81 @@ export class PublicacionItemComponent {
 
   crearlike(){
 
+    this.likesvc.crearLike(this.publicacion).subscribe((respuesta:any)=>{
+
+        if (respuesta.data) {
+
+          let like:Like = {
+            id:Number(respuesta.data.id),
+            User:respuesta.data.User,
+            likeable_id:Number(respuesta.data.likeable_id),
+            likeable_type:String(respuesta.data.likeable_type),
+            created_at:new Date(respuesta.data.created_at),
+            updated_at:new Date(respuesta.data.updated_at)
+          }
+          let usuario:User={
+              id:Number(like.User?.id),
+              name:String(like.User?.name),
+              lastname:String(like.User?.lastname),
+              username:String(like.User?.username),
+              foto_perfil:String(like.User?.foto_perfil)
+
+          }
+
+          this.usuariosLike.unshift(usuario);
+          this.megusta.push(like);
+
+        }
+
+        if (respuesta == 0) {
+
+          let indicelk = this.megusta.findIndex(item=>item.User?.id==this.UsuarioLogged.id);
+          let indiceU = this.usuariosLike.findIndex(item=>item.id==this.UsuarioLogged.id)
+          this.megusta.splice(indicelk,1);
+          this.usuariosLike.splice(indiceU,1);
+
+        }
+    });
+
   }
 
-  likedBy(){
-
+  likedBy():Boolean{
+    let likePost:Boolean=false;
+    this.megusta.forEach(item => {
+      if (item.User?.id==this.UsuarioLogged.id) {
+        likePost=true;
+      }
+    });
+      return likePost;
   }
 
-  cantLikes():Number{
-    return 0;
+  loadMegusta(){
+    if (this.publicacion.Likes) {
+        this.publicacion.Likes.forEach(pl => {
+        this.megusta.push(pl);
+      });
+    }
+
+    this.megusta.forEach(Ul => {
+      if (Ul.User) {
+        this.usuariosLike.push(Ul.User);
+      }
+    });
   }
 
   //END CRUD LIKES
 
-  cantidadImagenesPublicadas(array:any[]):number{
+  //CRUD COMENTARIOS
+
+  cantComentarios():Number{
+    return 0;
+  }
+
+  //END CRUD COMENTARIOS
+
+
+
+  cantElementosArray(array:any[]):number{
     return array.length;
   }
 

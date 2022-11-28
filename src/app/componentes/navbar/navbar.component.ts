@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { User } from 'src/app/modelos/User';
 import { AuthService } from 'src/app/servicios/auth.service';
 
 
@@ -8,10 +10,19 @@ import { AuthService } from 'src/app/servicios/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
 
-  constructor(private router:Router,private authsvc:AuthService)
+
+  UsuarioLogueado!:User;
+
+  constructor(
+    private router:Router,
+    private authsvc:AuthService,
+    private cookiesvc:CookieService)
   {}
+
+  ngOnInit(): void {
+  }
 
   isruta():Boolean{
     let bandera:Boolean = false;
@@ -19,6 +30,13 @@ export class NavbarComponent {
         bandera=false;
         return bandera;
     }else{
+        if (this.cookiesvc.get('token')) {
+
+          this.authsvc.usuarioLogueado$.subscribe(user=>{
+            this.UsuarioLogueado = user;
+          });
+
+        }
       bandera=true;
       return bandera
     }
