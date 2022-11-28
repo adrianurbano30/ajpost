@@ -1,0 +1,104 @@
+<div class="relative flex items-center justify-center bg-white w-full">
+  <fa-icon (click)="cerrarModal()" class="absolute  top-0 right-1 flex items-center text-2xl text-gray-500 cursor-pointer" [icon]="iconocerrar"  ></fa-icon>
+  <div class="grid grid-cols-1 mt-5 w-full">
+
+    <h1 class="text-center text-xl text-black  w-full">EDITAR PUBLICACIÓN</h1>
+
+    <hr class="border bg-gray-200 w-full">
+
+    <div class="ml-2 flex place-items-start justify-start my-6">
+      <img class="w-12 h-12 rounded-full object-cover" src="{{usuarioLogueado.foto_perfil}}">
+      <span class="text-gray-700 self-end text-lg font-extrabold">{{usuarioLogueado.name}}</span>
+    </div>
+
+    <form [formGroup]="publicacionForm">
+      <div class="w-full flex items-center justify-center mb-1">
+        <div class="grid grid-cols-1 w-full  ">
+          <div class="w-full overflow-y-auto h-32">
+                   <textarea cols="30"
+                    formControlName="body"
+                    autofocus
+                    rows="4"
+                    name="body"
+                    class="auto text-gray-800 w-full px-2 py-1 text-xl text-justify placeholder-gray-900 transition duration-500 rounded-lg shadow-inner resize-none ta_p focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent desplazamiento_scroll"
+                    placeholder="Que tienes en mente {{usuarioLogueado.name}} ?"></textarea>
+          </div>
+          <!-- EMOJIS -->
+          <div class="flex items-end justify-end mr-5">
+
+          </div>
+          <!-- END EMOJIS -->
+
+        </div>
+
+      </div>
+      <div *ngIf="archivos || imageSrc2" class="flex items-center justify-center">
+
+        <div *ngIf="cantImagenes(imageSrc2)==1" class="grid grid-cols-1 w-full">
+          <div class="relative flex justify-end" *ngFor="let img of imageSrc2;let i = index">
+            <img class="object-cover rounded h-48 w-full" [src]="imageSrc2[i].url">
+            <fa-icon title="eliminar" (click)="quitarImagenestemp(i)" class="absolute  top-0 right-1 flex items-center text-xl text-gray-600 border-2 border-gray-100 rounded-full px-2 py-1 cursor-pointer" [icon]="iconocerrar"  ></fa-icon>
+          </div>
+        </div>
+
+        <div *ngIf="cantImagenes(imageSrc2)==2" class="grid grid-cols-2 w-full">
+          <div class="relative flex justify-end" *ngFor="let img of imageSrc2;let i = index">
+            <img class="object-cover rounded h-48 w-full" [src]="imageSrc2[i].url">
+            <fa-icon title="eliminar" (click)="quitarImagenestemp(i)" class="absolute  top-0 right-1 flex items-center text-xl text-gray-600 border-2 border-gray-100 rounded-full px-2 py-1 cursor-pointer" [icon]="iconocerrar"  ></fa-icon>
+          </div>
+        </div>
+
+        <div *ngIf="cantImagenes(imageSrc2)==3" class="grid grid-cols-3 w-full overflow-y-auto h-48">
+          <div class="relative flex justify-end" *ngFor="let img of imageSrc2;let i = index">
+            <img class="object-cover rounded  h-auto w-32" [src]="imageSrc2[i].url">
+            <fa-icon title="eliminar" (click)="quitarImagenestemp(i)" class="absolute  top-0 right-1 flex items-center text-xl text-gray-600 border-2 border-gray-100 rounded-full px-2 py-1 cursor-pointer" [icon]="iconocerrar"  ></fa-icon>
+          </div>
+        </div>
+
+        <div *ngIf="cantImagenes(imageSrc2)>=4" class="grid grid-cols-4 w-full overflow-y-auto h-32">
+          <div class="relative flex justify-end" *ngFor="let img of imageSrc2;let i = index">
+            <img class="object-cover rounded  h-auto w-auto" [src]="imageSrc2[i].url">
+            <fa-icon title="eliminar" (click)="quitarImagenestemp(i)" class="absolute  top-0 right-1 flex items-center text-xl text-gray-600 border-2 border-gray-100 rounded-full px-2 py-1 cursor-pointer" [icon]="iconocerrar"  ></fa-icon>
+          </div>
+        </div>
+
+      </div>
+      <div class="w-full flex items-center justify-between border-2 rounded-md p-4 mb-1">
+
+          <span class="text-gray-800 text-lg font-bold">Agregar a la publicación</span>
+
+          <div class="flex items-end justify-end ">
+              <!-- SUBIR IMAGENES -->
+              <label title="SUBIR IMAGENES" class="flex flex-col items-center tracking-wide text-blue-400 uppercase transition duration-500 rounded-lg cursor-pointer w-15 hover:text-green-200 ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <input
+                         name="imagenes_publicacion"
+                         type='file'
+                         formControlName="imagenes"
+                         title="Sube una imagen"
+                         accept="image/*"
+                         class="hidden"
+                         multiple="true"
+                         (change)="capturarFile($event)"
+                  />
+              </label>
+
+          </div>
+
+      </div>
+
+      <div class="flex items-center justify-center   w-full mt-2">
+        <button
+          type="submit"
+          [mat-dialog-close]="[publicacionForm.value,archivos,imageSrc2delete]"
+          [disabled]="publicacionForm.value.body=='' && imageSrc2.length==0"
+          [ngClass]="{'bg-gray-700':publicacionForm.value.body=='' && imageSrc2.length==0,'hover:bg-gray-500':publicacionForm.value.body=='' && imageSrc2.length==0,'bg-blue-500':publicacionForm.value.body || imageSrc2.length>0,'hover:bg-blue-700':publicacionForm.value.body || imageSrc2.length>0}"
+          class="flex justify-center w-full px-4 py-2 mb-1 mx-1 text-base font-medium text-white transition duration-700  border border-transparent rounded-lg group  focus:outline-none focus:ring-2  focus:ring-offset-2">
+         GUARDAR
+        </button>
+      </div>
+     </form>
+  </div>
+</div>

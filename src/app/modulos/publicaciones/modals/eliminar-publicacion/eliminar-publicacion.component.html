@@ -1,0 +1,32 @@
+<div class="relative flex items-center justify-center bg-white w-full">
+  <fa-icon (click)="cerrarModal()" class="absolute  top-0 right-1 flex items-center text-2xl text-gray-500 cursor-pointer" [icon]="iconocerrar"  ></fa-icon>
+  <div class="grid grid-cols-1 mt-5 w-full">
+
+    <h1 class="text-center text-xl text-black  w-full">ELIMINAR PUBLICACIÓN</h1>
+
+    <hr class="border bg-gray-200 w-full">
+
+    <!-- <div class="ml-2 flex place-items-start justify-start my-6">
+      <img class="w-12 h-12 rounded-full object-cover" src="{{usuarioLogueado.foto_perfil}}">
+      <span class="text-gray-700 self-end text-lg font-extrabold">{{usuarioLogueado.name}}</span>
+    </div> -->
+    <p class="p-2 text-base font-bold text-center">
+      Las imagenes, likes, comentarios se eliminarán automaticamente de forma permanente
+    </p>
+    <div class="flex items-center justify-center   w-full mt-2">
+      <div class="grid grid-cols-2 gap-2">
+        <button
+          (click)="cerrarModal()"
+          class="flex justify-center w-full px-4 py-2 mb-1 mx-1 text-base text-center border-2 border-gray-400 font-medium text-gray-500  transition duration-700  rounded-lg">
+          CANCELAR
+        </button>
+        <button
+          [mat-dialog-close]="publicacion.id"
+          class="flex justify-center w-full px-4 py-2 mb-1 mx-1 text-base text-center  text-white  transition duration-700 rounded-lg bg-blue-500">
+          ELIMINAR
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

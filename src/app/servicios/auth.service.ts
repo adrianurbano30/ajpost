@@ -70,6 +70,10 @@ export class AuthService {
     )
   }
 
+  usuariologueado():Observable<any>{
+    return this.http.get<any>(`${this.api}/usuariolog`);
+  }
+
   errorServer(error:any){
     this.hayerrores$.next(true);
     this.msjerror$.next(error);

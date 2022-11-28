@@ -1,0 +1,133 @@
+<div class="rounded-lg bg-gray-50  border-2 border-white py-2 shadow-gray-600 shadow-md my-2">
+
+  <!-- top de la publicacion -->
+
+  <div class="flex items-center justify-between mx-1 border-b-2 border-gray-200">
+
+    <div class="flex items-center space-x-1">
+      <img class="my-2 rounded-full w-11 h-11" src="{{publicacion.user.foto_perfil}}">
+          <div class="font-medium dark:text-white">
+              <div> {{publicacion.user.name}}  {{publicacion.user.lastname}}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                {{publicacion.created_at | date}}
+                <fa-icon  class="w-4 h-4 ml-1 text-xs" [icon]="iconoCalendario"  ></fa-icon>
+              </div>
+          </div>
+    </div>
+
+    <div>
+      <fa-icon [matMenuTriggerFor]="menuPost" class="w-auto p-1 mr-2 text-lg rounded-full cursor-pointer h-7" [icon]="iconoMnuPublicacion"  ></fa-icon>
+      <mat-menu  #menuPost="matMenu">
+        <div *ngIf="UsuarioLogged.id==publicacion.user.id">
+          <span (click)="abrirModalActualizarPublicacion()" mat-menu-item class="mx-2 font-bold text-white">Editar Publicacion</span>
+          <span (click)="abrirModalEliminarPublicacion()" mat-menu-item class="mx-2 font-bold text-white">Eliminar Publicacion</span>
+        </div>
+        <div *ngIf="UsuarioLogged.id!=publicacion.user.id">
+        <span mat-menu-item class="mx-2 font-bold text-white">Ocultar Publicacion</span>
+        </div>
+      </mat-menu>
+    </div>
+
+
+
+  </div>
+
+  <!--END top de la publicacion -->
+
+  <!-- body de la publicacion -->
+
+  <div class="mt-2 mx-2">
+    <p class="p-1 text-lg text-justify">
+      {{publicacion.body==null ? '': publicacion.body }}
+    </p>
+  </div>
+
+  <!--END body de la publicacion -->
+
+  <!-- imagenes publicacion -->
+
+  <div *ngIf="publicacion.Imagenes">
+
+    <!--cantidad de imgs 1-->
+    <div class="flex items-center justify-center h-full">
+      <div  class="grid grid-cols-1 h-auto w-full" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==1">
+        <div *ngFor="let img of publicacion.Imagenes" >
+               <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
+        </div>
+      </div>
+    </div>
+    <!--end cantidad de imgs 1 -->
+
+    <!--cantidad de imgs 2-->
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==2">
+      <div *ngFor="let img of publicacion.Imagenes" >
+        <!-- <img  class="object-cover w-full h-full" src="http://jwt_backend.test/{{img.url}}"> -->
+        <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
+      </div>
+    </div>
+    <!--end cantidad de imgs2-->
+
+    <!--cantidad de imgs 3-->
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==3">
+      <div *ngFor="let img of publicacion.Imagenes ; let i = index" [ngClass]="{'row-span-3 h-96': i===0,'h-48':i>0}" >
+        <!-- <img  class="object-cover w-full h-full" src="http://jwt_backend.test/{{img.url}}"> -->
+        <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
+      </div>
+    </div>
+    <!--end cantidad de imgs 3-->
+
+    <!--cantidad de imgs 4-->
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)==4">
+      <div *ngFor="let img of publicacion.Imagenes ; let i = index" [ngClass]="{'row-span-3 h-96': i===0,'h-32':i>0}" >
+        <!-- <img  class="object-cover w-full h-full" src="http://jwt_backend.test/{{img.url}}"> -->
+        <img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
+      </div>
+    </div>
+    <!--end cantidad de imgs 4-->
+
+    <!--cantidad de imgs >4-->
+    <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantidadImagenesPublicadas(publicacion.Imagenes)>=5">
+      <div *ngFor="let img of publicacion.Imagenes | slice:0:4 ; let i = index" class="relative" [ngClass]="{'row-span-3 h-96': i===0,'h-32':i>0}" >
+        <img  *ngIf="i<4" [ngClass]="{'blur-sm': i==3}" class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}">
+        <p *ngIf="i==3" style="top: 50%;right:50%;user-select: none" class="absolute flex items-center justify-center text-4xl font-extrabold text-center text-blue-600 transition duration-500 hover:text-sky-300 ">
+          + {{cantidadImagenesPublicadas(publicacion.Imagenes)-4}}
+        </p>
+      </div>
+    </div>
+    <!--end cantidad de imgs >4-->
+
+  </div>
+
+  <!--END imagenes publicacion -->
+
+  <!-- bottom de publicacion -->
+
+  <div class="flex items-center justify-between px-2 py-1">
+    <!-- THE likes  -->
+
+      <div class="flex items-center justify-center">
+
+        <div class="relative">
+          <fa-icon (mouseout)="megustaMSG=false" (mouseover)="megustaMSG=true" (click)="crearlike()" [ngClass]="{'text-sky-500 ': likedBy()}" class="w-auto p-1 mr-1 text-lg transition duration-700 rounded-full cursor-pointer" [icon]="iconoLike"  > </fa-icon>
+          <div class="absolute left-0 z-50 w-20 font-bold text-center text-white transition duration-500 bg-gray-800 -top-6 bg-opacity-80" *ngIf="megustaMSG">
+            <span>Me gusta</span>
+          </div>
+        </div>
+
+        <div class="relative">
+          <span (mouseout)="whoLikepost=false" (mouseover)="whoLikepost=true" class="p-1 text-base text-gray-600">{{cantLikes()==0?'':cantLikes()}}</span>
+          <div *ngIf="whoLikepost && usersWholikepost.length>0" class="absolute z-50 w-48 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 left-3" >
+            <span class="flex items-center w-auto gap-1 text-xs text-white" *ngFor="let usuario of usersWholikepost">
+              <span>{{usuario.name}}</span><span>{{usuario.lastname}}</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    <!--END THE likes  -->
+  </div>
+
+  <!--END bottom de publicacion -->
+
+</div>
