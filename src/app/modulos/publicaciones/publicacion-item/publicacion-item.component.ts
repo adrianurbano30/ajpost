@@ -5,6 +5,7 @@ import { Comentario } from 'src/app/modelos/Comentario';
 import { Like } from 'src/app/modelos/Like';
 import { Publicacion } from 'src/app/modelos/Publicacion';
 import { User } from 'src/app/modelos/User';
+import { ComentarioService } from 'src/app/servicios/comentario.service';
 import { LikeService } from 'src/app/servicios/like.service';
 import { ActualizarPublicacionComponent } from '../modals/actualizar-publicacion/actualizar-publicacion.component';
 import { EliminarPublicacionComponent } from '../modals/eliminar-publicacion/eliminar-publicacion.component';
@@ -28,7 +29,7 @@ export class PublicacionItemComponent implements OnInit{
   megusta:Like[]=[];
   comentariosList:Comentario[]=[];
   usuariosLike:User[]=[];
-  userWhoCommenpost:User[]=[];
+  usuariosComentario:User[]=[];
   whoLikepost:Boolean=false;
   whoCommentPost:Boolean=false;
   megustaMSG:boolean=false;
@@ -39,13 +40,13 @@ export class PublicacionItemComponent implements OnInit{
 
   constructor(
     private modal:MatDialog,
-    private likesvc:LikeService
+    private likesvc:LikeService,
+    private comentariosvc:ComentarioService,
   )
   {}
   ngOnInit(): void {
-
     this.loadMegusta();
-
+    this.loadComentarios();
   }
 
   //CRUD PUBLICACIONES
@@ -180,8 +181,93 @@ export class PublicacionItemComponent implements OnInit{
 
   //CRUD COMENTARIOS
 
-  cantComentarios():Number{
-    return 0;
+  crear_comentario(){
+
+    if (this.comentario) {
+
+      let fd = new FormData();
+      fd.append('usuario_id',String(this.UsuarioLogged.id));
+      fd.append('publicacion_id',String(this.publicacion.id));
+      fd.append('comentario',String(this.comentario));
+
+
+      this.comentariosvc.crearComentario(fd).subscribe((respuesta:any)=>{
+
+        let comentariu:Comentario = respuesta.data;
+
+        this.comentariosList.unshift(comentariu);
+
+        if(!this.usuariosComentario.find(usr=>usr.id==respuesta.data.User.id)){
+          this.usuariosComentario.unshift(respuesta.data.User);
+        }
+
+      });
+      this.comentario='';
+    }
+
+  }
+
+  editarComentario(comentario:Comentario){
+
+    this.comentariosvc.actualizarComentario(comentario).subscribe((resp:any)=>{
+
+      let comentando:Comentario={
+        id:Number(resp.data.id),
+        comentarios:String(resp.data.comentarios),
+        comentarioable_id:Number(resp.data.comentarioable_id),
+        comentarioable_type:String(resp.data.comentarioable_type),
+        editado:resp.data.editado,
+        parent_id:Number(resp.data.parent_id),
+        Respuestas:resp.data.Respuestas,
+        User:resp.data.User,
+        created_at:new Date(resp.data.created_at),
+        updated_at:new Date(resp.data.updated_at),
+      }
+
+      let indice = this.comentariosList.findIndex(cmt=>cmt.id==comentando.id);
+
+      this.comentariosList[indice]=comentando;
+
+    });
+
+  }
+
+  eliminarComentario(comentario:Comentario){
+    this.comentariosvc.eliminarComentario(comentario).subscribe(resp=>{
+
+      if (resp) {
+        let indice = this.comentariosList.findIndex(cmt=>cmt.id== comentario.id);
+        let indiceU = this.usuariosComentario.findIndex(uc=>uc.id==comentario.User?.id);
+        this.usuariosComentario.splice(indiceU,1);
+        this.comentariosList.splice(indice,1);
+      }
+
+    });
+  }
+
+  loadComentarios(){
+
+    if (this.publicacion.Comentarios) {
+      this.publicacion.Comentarios.forEach(element => {
+        this.comentariosList.unshift(element);
+      });
+    }
+
+    this.comentariosList.forEach(clU => {
+
+      let usuario:User={
+        id:Number(clU.User?.id),
+        name:String(clU.User?.name),
+        lastname:String(clU.User?.lastname),
+        username:String(clU.User?.username),
+        foto_perfil:String(clU.User?.foto_perfil)
+      }
+
+      if(!this.usuariosComentario.find(usr=>usr.id==usuario.id)){
+        this.usuariosComentario.push(usuario);
+      }
+
+    });
   }
 
   //END CRUD COMENTARIOS

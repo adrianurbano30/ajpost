@@ -14,6 +14,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatMenuModule } from '@angular/material/menu';
+import { ComentariosComponent } from './publicacion-item/comentarios/comentarios.component';
+import { EliminarComentarioComponent } from './publicacion-item/comentarios/modals/eliminar-comentario/eliminar-comentario.component';
 
 
 @NgModule({
@@ -22,7 +24,10 @@ import { MatMenuModule } from '@angular/material/menu';
     PublicacionItemComponent,
     CrearPublicacionComponent,
     ActualizarPublicacionComponent,
-    EliminarPublicacionComponent
+    EliminarPublicacionComponent,
+    ComentariosComponent,
+    EliminarComentarioComponent,
+
   ],
   imports: [
     CommonModule,

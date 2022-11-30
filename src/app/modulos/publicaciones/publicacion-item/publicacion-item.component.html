@@ -129,9 +129,9 @@
 
       <div class="flex items-center">
         <div class="relative">
-          <span (mouseout)="whoCommentPost=false" (mouseover)="whoCommentPost=true" class="p-1 text-base text-gray-600">{{cantComentarios()==0?'':cantComentarios()}}</span>
-         <div *ngIf="whoCommentPost && cantComentarios()>0" class="absolute z-50 w-40 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 right-12">
-            <span class="flex w-auto gap-1 text-xs text-white it ems-center" *ngFor="let usuario of userWhoCommenpost">
+          <span (mouseout)="whoCommentPost=false" (mouseover)="whoCommentPost=true" class="p-1 text-base text-gray-600">{{cantElementosArray(comentariosList)==0?'':cantElementosArray(comentariosList)}}</span>
+         <div *ngIf="whoCommentPost && cantElementosArray(comentariosList)>0" class="absolute z-50 w-40 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 right-12">
+            <span class="flex w-auto gap-1 text-xs text-white it ems-center" *ngFor="let usuario of usuariosComentario">
               <span>{{usuario.name}}</span><span>{{usuario.lastname}}</span>
             </span>
           </div>
@@ -148,9 +148,23 @@
 
     <!-- LISTA DE COMENTARIOS -->
   <div  class="w-full pt-2 my-1 border-t-2 border-gray-200 " *ngIf="comentarioslista">
+    <div class="flex items-center w-full mb-1">
+      <img class="object-cover mr-1 rounded-full w-9 h-9" src="{{UsuarioLogged.foto_perfil}}">
+      <input type="text" (keyup.enter)="crear_comentario()" [(ngModel)]="comentario" class="w-full p-1 pl-2 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none" autofocus placeholder="Escribe aqui tus comentarios {{UsuarioLogged.name}}">
+    </div>
+
+    <div [ngClass]="{'h-96': comentariosList.length>10}" class="w-auto my-2 overflow-x-hidden overflow-y-auto">
+        <app-comentarios *ngFor="let comentario of comentariosList"
+                      [Comentario]="comentario"
+                      [UsuarioLogged]="UsuarioLogged"
+                      (editarComentario)="editarComentario($event)"
+                      (eliminarComentario)="eliminarComentario($event)"
+                      >
+        </app-comentarios>
+    </div>
 
   </div>
-    <!-- LISTA DE COMENTARIOS -->
+    <!--END LISTA DE COMENTARIOS -->
   <!--END bottom de publicacion -->
 
 </div>

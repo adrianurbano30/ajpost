@@ -22,6 +22,13 @@ export class NavbarComponent implements OnInit{
   {}
 
   ngOnInit(): void {
+    if (this.cookiesvc.get('token')) {
+
+      this.authsvc.usuariologueado().subscribe(user=>{
+        this.UsuarioLogueado = user.user;
+      });
+
+    }
   }
 
   isruta():Boolean{

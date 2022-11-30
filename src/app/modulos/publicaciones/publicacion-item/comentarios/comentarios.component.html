@@ -1,0 +1,77 @@
+<div class="flex w-full p-3 my-1 mr-8">
+  <div  class="relative flex w-full pl-8 border-b-2 border-l-2 border-gray-300 rounded-b-none rounded-l-lg">
+
+    <img  class="absolute flex self-start object-cover mr-1 rounded-full w-9 h-9 -top-0 -left-3" src="{{Comentario.User?.foto_perfil}}">
+    <div *ngIf="completeComment_">
+
+      <div (mouseout)="mnuCrudCommentsHover(false)"  (mouseover)="mnuCrudCommentsHover(true)" class="w-auto p-2 mb-1 bg-gradient-to-tr from-sky-200 via-sky-100 to-gray-50 rounded-xl">
+        <div class="flex items-center justify-between gap-2">
+          <span  class="text-sm font-bold text-black">{{Comentario.User?.name}} {{Comentario.User?.lastname}}</span>
+          <div>
+            <fa-icon  [ngClass]="{'transition duration-700 text-blue-900 text-xl font-bold': mnuCrudComentarios,'transition duration-700':!menuComentarios}"  [matMenuTriggerFor]="menuComentarios" class="w-auto p-1 mr-2 text-lg text-white rounded-full cursor-pointer h-7" [icon]="iconoMnuComentario"  ></fa-icon>
+            <mat-menu  #menuComentarios="matMenu">
+              <div *ngIf="UsuarioLogged.id===Comentario.User?.id">
+                <span (click)="openUpdateComentario()" mat-menu-item class="mx-2 font-bold text-white">Editar</span>
+                <span (click)="eliminarCommentario()"  mat-menu-item class="mx-2 font-bold text-white">Eliminar</span>
+              </div>
+              <div *ngIf="UsuarioLogged.id!=Comentario.User?.id">
+              <span mat-menu-item class="mx-2 font-bold text-white">Ocultar</span>
+              </div>
+            </mat-menu>
+          </div>
+        </div>
+        <p class="px-1 text-sm text-justify text-gray-900">{{Comentario.comentarios}}</p>
+      </div>
+
+      <div class="flex items-center justify-between gap-2 mb-2 border-b-2  border-blue-300">
+
+        <!-- me gusta comentario cantidad -->
+        <div class="relative">
+          <fa-icon   (click)="crearLike()" [ngClass]="{'text-sky-500 transition duration-700': likedBy()}" class="w-auto p-1 mr-2 text-sm transition duration-700 rounded-full cursor-pointer h-7" [icon]="iconoLike"></fa-icon>
+          <div *ngIf="cantElementosArray(megusta)>0" class="absolute left-0 px-2 text-xs text-white bg-gray-900 rounded-md -top-4 bg-opacity-70">
+            <span>{{cantElementosArray(megusta)}}</span>
+          </div>
+        </div>
+        <!--END me gusta comentario cantidad-->
+
+        <!-- responder comentario cantidad respuestas-->
+        <div class="relative">
+          <span (click)="responderAcomentarioVista()"  class="text-sm font-bold transition duration-700 cursor-pointer select-none">responder</span>
+          <div *ngIf="cantElementosArray(comentario_list)>0" class="absolute left-0 px-2 text-xs text-white bg-gray-900 rounded-md -top-4 bg-opacity-70">
+            {{cantElementosArray(comentario_list)}}
+          </div>
+        </div>
+        <!--END responder comentario cantidad respuestas-->
+
+        <!-- fecha creacion comentario Editado o no  -->
+        <div *ngIf="Comentario.editado==false" class="text-xs ">{{Comentario.created_at | date}}</div>
+        <div *ngIf="Comentario.editado" class="text-xs ">{{Comentario.updated_at | date}}</div>
+        <div *ngIf="Comentario.editado" class="text-sm italic text-gray-900 ">editado</div>
+        <!--END fecha creacion comentario Editado o no  -->
+
+      </div>
+
+      <!-- respuestaS a comentarios -->
+      <div  class="relative" *ngIf="vistaResponderComentario">
+
+        <div class="absolute -left-8 bottom-4 rounded-l-lg border-t-2 border-sky-300 w-14 rounded-tl-xl"></div>
+        <div  class="flex items-center w-full my-2">
+          <img class="z-50 object-cover w-8 h-8 mr-1 rounded-full" src="{{UsuarioLogged.foto_perfil}}">
+          <input type="text" (keyup.enter)="respuestaComentario()" [(ngModel)]="ng_model_respuesta_comentario" class="w-full p-1 pl-2 mr-5 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none"  autofocus placeholder="">
+        </div>
+
+      </div>
+      <!-- respuestaS a comentarios -->
+
+
+    </div>
+
+    <div *ngIf="editComment_" class="flex items-center w-full mb-1">
+      <div class="grid w-full grid-cols-1">
+        <input type="text" (keyup.enter)="editarCommentario()" [(ngModel)]="ng_model_editar_comentario" class="w-full py-4 font-serif text-base text-black placeholder-gray-500 transition duration-500 shadow-inner sm:text-sm rounded-2xl focus:no-underline focus:outline-none">
+        <p (click)="cancelarEdicion()" class="select-none w-10 text-base font-bold text-blue-500 cursor-pointer">Cancelar</p>
+      </div>
+    </div>
+
+  </div>
+</div>
