@@ -16,6 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatMenuModule } from '@angular/material/menu';
 import { ComentariosComponent } from './publicacion-item/comentarios/comentarios.component';
 import { EliminarComentarioComponent } from './publicacion-item/comentarios/modals/eliminar-comentario/eliminar-comentario.component';
+import { OrdenamientoUsuariosPipe } from 'src/app/pipes/ordenamiento-usuarios.pipe';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { EliminarComentarioComponent } from './publicacion-item/comentarios/moda
     EliminarPublicacionComponent,
     ComentariosComponent,
     EliminarComentarioComponent,
+    OrdenamientoUsuariosPipe
 
   ],
   imports: [

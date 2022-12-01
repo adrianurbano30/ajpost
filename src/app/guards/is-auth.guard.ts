@@ -14,7 +14,7 @@ export class IsAuthGuard implements CanActivate, CanActivateChild {
 
     const token = this.cookiesvc.get('token');
 
-    if (!token) {
+    if (token=='') {
         return true
     }else{
 
@@ -29,12 +29,13 @@ export class IsAuthGuard implements CanActivate, CanActivateChild {
 
     const token = this.cookiesvc.get('token');
 
-    if (!token) {
+    if (token=='') {
       return true
   }else{
 
-    return false;
     this.route.navigate(['publicaciones']);
+    return false;
+
   }
   }
 

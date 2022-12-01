@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { FormGroup,FormBuilder,FormControl,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faCheck,faEnvelope,faXmarkCircle,faLock,faAnchorLock } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/servicios/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent{
+export class LoginComponent implements OnInit{
 
   iconcheck = faCheck;
   iconxmark = faXmarkCircle;
@@ -21,8 +21,9 @@ export class LoginComponent{
   LoginForm!:FormGroup;
 
   constructor(private fb:FormBuilder,private router:Router,private authsvc:AuthService)
-  {
-
+  {}
+  ngOnInit(): void {
+    this.LoginForm = this.formInit();
     this.authsvc.hayerrores$.subscribe((err:boolean)=>{
       this.existeError = err;
     });
@@ -33,14 +34,13 @@ export class LoginComponent{
         this.errorMensaje = msj.error['error'];
       }
     });
-    this.LoginForm = this.formInit();
   }
 
 
   formInit():FormGroup{
     return this.fb.group({
       email:['',[Validators.required,Validators.email]],
-      password:['11111111',[Validators.required]]
+      password:['password',[Validators.required]]
     });
   }
 

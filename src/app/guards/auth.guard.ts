@@ -16,7 +16,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
       const token = this.cookiesvc.get('token');
 
-      if (!token) {
+
+      if (token=='') {
         this.route.navigate(['auth/login']);
         return false;
       }
@@ -29,7 +30,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
       const token = this.cookiesvc.get('token');
-      if (!token) {
+      if (token=='') {
         this.route.navigate(['auth/login']);
         return false;
       }

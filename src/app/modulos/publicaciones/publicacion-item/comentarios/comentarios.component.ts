@@ -23,9 +23,9 @@ export class ComentariosComponent implements OnInit{
   iconoLike=faThumbsUp;
   iconoComentarComentario=faComment;
 
-  comentario_list:Comentario[]=[];
+  //comentario_list:Comentario[]=[];
   megusta:Like[]=[];
-  usersLikeComentario:User[]=[];
+  //usersLikeComentario:User[]=[];
 
 
   ng_model_editar_comentario!:string;//<-VAR para guardar en el ngmodel de edicion de comentario

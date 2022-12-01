@@ -30,6 +30,7 @@ export class PublicacionItemComponent implements OnInit{
   comentariosList:Comentario[]=[];
   usuariosLike:User[]=[];
   usuariosComentario:User[]=[];
+  usuariosUnicosComentario:User[]=[];
   whoLikepost:Boolean=false;
   whoCommentPost:Boolean=false;
   megustaMSG:boolean=false;
@@ -197,9 +198,11 @@ export class PublicacionItemComponent implements OnInit{
 
         this.comentariosList.unshift(comentariu);
 
-        if(!this.usuariosComentario.find(usr=>usr.id==respuesta.data.User.id)){
-          this.usuariosComentario.unshift(respuesta.data.User);
-        }
+        // if(!this.usuariosComentario.find(usr=>usr.id==respuesta.data.User.id)){
+        //   this.usuariosComentario.unshift(respuesta.data.User);
+        // }
+
+        this.usuariosComentario.unshift(respuesta.data.User);
 
       });
       this.comentario='';
@@ -236,6 +239,7 @@ export class PublicacionItemComponent implements OnInit{
     this.comentariosvc.eliminarComentario(comentario).subscribe(resp=>{
 
       if (resp) {
+
         let indice = this.comentariosList.findIndex(cmt=>cmt.id== comentario.id);
         let indiceU = this.usuariosComentario.findIndex(uc=>uc.id==comentario.User?.id);
         this.usuariosComentario.splice(indiceU,1);
@@ -263,9 +267,10 @@ export class PublicacionItemComponent implements OnInit{
         foto_perfil:String(clU.User?.foto_perfil)
       }
 
-      if(!this.usuariosComentario.find(usr=>usr.id==usuario.id)){
-        this.usuariosComentario.push(usuario);
-      }
+      // if(!this.usuariosComentario.find(usr=>usr.id==usuario.id)){
+      //   this.usuariosComentario.push(usuario);
+      // }
+      this.usuariosComentario.push(usuario);
 
     });
   }
