@@ -130,7 +130,7 @@
       <div class="flex items-center">
         <div class="relative">
           <span (mouseout)="whoCommentPost=false" (mouseover)="whoCommentPost=true" class="p-1 text-base text-gray-600">{{cantElementosArray(comentariosList)==0?'':cantElementosArray(comentariosList)}}</span>
-         <div *ngIf="whoCommentPost && cantElementosArray(comentariosList)>0" class="absolute z-50 w-40 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 right-12">
+         <div *ngIf="whoCommentPost && cantElementosArray(comentariosList)>0" class="absolute z-50 w-48 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 right-12">
             <span class="flex w-auto gap-1 text-xs text-white it ems-center" *ngFor="let usuario of (usuariosComentario | ordenamientoUsuarios)">
               <span>{{usuario.name}}</span><span>{{usuario.lastname}}</span>
             </span>

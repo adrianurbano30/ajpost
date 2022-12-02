@@ -1,0 +1,79 @@
+<div (mouseover)="mnuCrudCommentsHover(true)" (mouseout)="mnuCrudCommentsHover(false)" class="relative flex   w-full  m-1 border-l-2 border-b-2 border-gray-300 rounded-l-lg">
+
+  <div class="absolute -left-10 top-4  border-t-2 border-gray-300 w-14 rounded-tl-xl"></div>
+  <img class="absolute -left-2 top-0 z-50 object-cover w-8 h-8 mr-1 rounded-full" src="{{respuesta.User?.foto_perfil}}">
+
+  <div *ngIf="respuesta_v_completa" class="w-auto ml-8">
+
+    <div class="p-2 bg-gradient-to-tr from-sky-300 via-sky-200 to-gray-50 rounded-xl">
+      <div class="flex items-center justify-between">
+        <span  class="text-sm font-bold text-black mr-2">{{respuesta.User?.name}} {{respuesta.User?.lastname}}</span>
+        <div>
+          <fa-icon  [ngClass]="{'transition duration-700 text-blue-900 text-xl font-bold': mnuCrudRespuestas,'transition duration-700':!mnuCrudRespuestas}"  [matMenuTriggerFor]="menuRespComentarios" class="w-auto   text-lg text-white rounded-full cursor-pointer h-7" [icon]="iconoMnuComentario"  ></fa-icon>
+          <mat-menu  #menuRespComentarios="matMenu">
+            <div *ngIf="UsuarioLogged.id===respuesta.User?.id">
+              <span  (click)="openUpdateRespuesta()" mat-menu-item class="mx-2 font-bold text-white">Editar</span>
+              <span (click)="openEliminarRespuesta()"  mat-menu-item class="mx-2 font-bold text-white">Eliminar</span>
+            </div>
+            <div *ngIf="UsuarioLogged.id!=respuesta.User?.id">
+            <span mat-menu-item class="mx-2 font-bold text-white">Ocultar</span>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+      <p class="px-1 text-sm text-justify text-gray-800">{{respuesta.comentarios}}</p>
+    </div>
+    <div class="flex items-center justify-between">
+        <!-- like -->
+        <div class="relative mr-2">
+          <fa-icon (click)="crearlike()" [ngClass]="{'text-sky-500 transition duration-700': likedBy()}"  class="w-auto p-1 mr-2 text-xs transition duration-700 rounded-full cursor-pointer h-7" [icon]="iconoLike"></fa-icon>
+          <div *ngIf="cantArr(megusta)>0" class="absolute left-0 px-2 text-xs text-white bg-gray-900 rounded-md -top-4 bg-opacity-70">
+            <span>{{cantArr(megusta)}}</span>
+          </div>
+        </div>
+        <!--END like -->
+        <!-- responder -->
+        <div class="relative mr-2">
+          <span (click)="responderArespuestaVista()" class="text-xs font-bold  cursor-pointer select-none ">responder</span>
+          <div *ngIf="cantArr(respuestas_list)>0" class="absolute left-0 px-2 text-xs text-white bg-gray-900 rounded-md -top-4 bg-opacity-70">
+            {{cantArr(respuestas_list)}}
+          </div>
+        </div>
+        <!--END responder -->
+        <!-- fecha de creacion o edicion  -->
+        <div *ngIf="respuesta.editado==false" class="text-xs mr-2">{{respuesta.created_at | date}}</div>
+        <div *ngIf="respuesta.editado" class="text-xs mr-2">{{respuesta.updated_at | date}}</div>
+        <div *ngIf="respuesta.editado" class="text-xs italic text-gray-900 ">editado</div>
+        <!--END  fecha de creacion o edicion  -->
+    </div>
+    <!-- respuestas respuestas lista -->
+    <div class="relative" *ngIf="vistaResponderRespuesta">
+
+      <app-respuesta-comentario *ngFor="let respuesta of respuestas_list"
+                                [respuesta]="respuesta"
+                                [UsuarioLogged]="UsuarioLogged"
+                                (editar_respuesta_comentario)="update_R_Emmited($event)"
+                                (eliminar_respuesta_comentario)="destroy_R_Emmited($event)"
+                                >
+      </app-respuesta-comentario>
+
+      <div class="absolute -left-8 rounded-l-lg bottom-4 border-t-2 border-sky-300 w-14 rounded-tl-xl"></div>
+      <div  class="flex items-center w-full my-2">
+        <img class="z-50 object-cover w-8 h-8 mr-1 rounded-full" src="{{UsuarioLogged.foto_perfil}}">
+        <input type="text" (keyup.enter)="crearRespuesta_A_respuesta()" [(ngModel)]="ng_model_respuesta_respuesta" class="w-full p-1 pl-2 mr-5 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none"  autofocus placeholder="">
+      </div>
+
+    </div>
+    <!--END respuestas respuestas lista -->
+  </div>
+
+  <!-- editar respuesta -->
+  <div *ngIf="editar_v_respuesta" class="flex items-center w-full ml-8 mb-1">
+    <div class="grid w-full grid-cols-1">
+      <input type="text" (keyup.enter)="editarRespuesta()" [(ngModel)]="ng_model_editar_respuesta_respuesta" class="w-full p-1 pl-2 mr-5 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none" autofocus>
+      <p (click)="cancelarEdicion()" class="select-none w-10 text-base font-bold text-blue-500 cursor-pointer">Cancelar</p>
+    </div>
+  </div>
+  <!--end editar respuesta -->
+
+</div>

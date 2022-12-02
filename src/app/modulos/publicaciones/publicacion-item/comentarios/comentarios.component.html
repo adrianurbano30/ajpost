@@ -37,9 +37,9 @@
         <!-- responder comentario cantidad respuestas-->
         <div class="relative">
           <span (click)="responderAcomentarioVista()"  class="text-sm font-bold transition duration-700 cursor-pointer select-none">responder</span>
-          <!-- <div *ngIf="cantElementosArray(comentario_list)>0" class="absolute left-0 px-2 text-xs text-white bg-gray-900 rounded-md -top-4 bg-opacity-70">
-            {{cantElementosArray(comentario_list)}}
-          </div> -->
+          <div *ngIf="cantElementosArray(R_comentarios_list)>0" class="absolute left-0 px-2 text-xs text-white bg-gray-900 rounded-md -top-4 bg-opacity-70">
+            {{cantElementosArray(R_comentarios_list)}}
+          </div>
         </div>
         <!--END responder comentario cantidad respuestas-->
 
@@ -54,10 +54,19 @@
       <!-- respuestaS a comentarios -->
       <div  class="relative" *ngIf="vistaResponderComentario">
 
+        <app-respuesta-comentario
+              *ngFor="let respuesta of R_comentarios_list"
+              [respuesta]="respuesta"
+              [UsuarioLogged]="UsuarioLogged"
+              (editar_respuesta_comentario)="editar_respuesta_Comentario($event)"
+              (eliminar_respuesta_comentario)="eliminar_respuesta_Comentario($event)"
+              >
+        </app-respuesta-comentario>
+
         <div class="absolute -left-8 bottom-4 rounded-l-lg border-t-2 border-sky-300 w-14 rounded-tl-xl"></div>
         <div  class="flex items-center w-full my-2">
           <img class="z-50 object-cover w-8 h-8 mr-1 rounded-full" src="{{UsuarioLogged.foto_perfil}}">
-          <input type="text" (keyup.enter)="respuestaComentario()" [(ngModel)]="ng_model_respuesta_comentario" class="w-full p-1 pl-2 mr-5 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none"  autofocus placeholder="">
+          <input type="text" (keyup.enter)="crear_respuestaComentario()" [(ngModel)]="ng_model_respuesta_comentario" class="w-full p-1 pl-2 mr-5 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none"  autofocus placeholder="">
         </div>
 
       </div>

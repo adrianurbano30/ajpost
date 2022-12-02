@@ -13,7 +13,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { OrdenamientoUsuariosPipe } from './pipes/ordenamiento-usuarios.pipe';
 
 @NgModule({
   declarations: [

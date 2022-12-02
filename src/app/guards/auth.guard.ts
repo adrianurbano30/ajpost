@@ -20,9 +20,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       if (token=='') {
         this.route.navigate(['auth/login']);
         return false;
+        //this.route.navigate(['auth/login']);
+      }else{
+        return true;
       }
-
-      return true;
 
   }
   canActivateChild(
@@ -33,10 +34,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       if (token=='') {
         this.route.navigate(['auth/login']);
         return false;
+        //this.route.navigate(['auth/login']);
+      }else{
+        return true;
       }
-
-      return true;
-
   }
 
 }

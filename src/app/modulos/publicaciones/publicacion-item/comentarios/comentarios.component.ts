@@ -4,6 +4,7 @@ import { faComment, faEllipsisV, faThumbsUp } from '@fortawesome/free-solid-svg-
 import { Comentario } from 'src/app/modelos/Comentario';
 import { Like } from 'src/app/modelos/Like';
 import { User } from 'src/app/modelos/User';
+import { ComentarioService } from 'src/app/servicios/comentario.service';
 import { LikeService } from 'src/app/servicios/like.service';
 import { EliminarComentarioComponent } from './modals/eliminar-comentario/eliminar-comentario.component';
 
@@ -23,9 +24,9 @@ export class ComentariosComponent implements OnInit{
   iconoLike=faThumbsUp;
   iconoComentarComentario=faComment;
 
-  //comentario_list:Comentario[]=[];
+
   megusta:Like[]=[];
-  //usersLikeComentario:User[]=[];
+  R_comentarios_list:Comentario[]=[];
 
 
   ng_model_editar_comentario!:string;//<-VAR para guardar en el ngmodel de edicion de comentario
@@ -47,11 +48,14 @@ export class ComentariosComponent implements OnInit{
 
   constructor(
     private likesvc:LikeService,
-    private modal:MatDialog
+    private modal:MatDialog,
+    private comentariosvc:ComentarioService
   )
   {}
   ngOnInit(): void {
     this.completeComment_=true;
+    this.loadlikes();
+    this.loadRespuestas();
   }
 
 
@@ -92,7 +96,52 @@ export class ComentariosComponent implements OnInit{
     });
 
   }
+  openUpdateComentario(){
+    this.completeComment_=false;
+    this.editComment_=true;
+    this.ng_model_editar_comentario=this.Comentario.comentarios;
+  }
+  /////CRUD RESPUESTAS A COMENTARIO
+  crear_respuestaComentario(){
 
+  if (this.ng_model_respuesta_comentario) {
+    let r_comentario:Comentario={
+      id:this.Comentario.id,
+      comentarios:this.ng_model_respuesta_comentario,
+      User:this.UsuarioLogged
+    }
+    this.comentariosvc.respuestaComentario(r_comentario).subscribe((r:any)=>{
+
+      let respuesta:Comentario = r.data;
+
+      this.R_comentarios_list.unshift(respuesta);
+      this.ng_model_respuesta_comentario='';
+    });
+
+
+  }
+
+  }
+  editar_respuesta_Comentario(respuesta_comentario:Comentario){
+    this.comentariosvc.updateRespuesta(respuesta_comentario).subscribe((resp:any)=>{
+      let response:Comentario=resp.data;
+      let indice = this.R_comentarios_list.findIndex(rspitm=>rspitm.id==respuesta_comentario.id);
+      this.R_comentarios_list[indice]=response;
+    });
+  }
+  eliminar_respuesta_Comentario(respuesta_comentario:Comentario){
+    this.comentariosvc.eliminarRespuesta(respuesta_comentario).subscribe((resp:any)=>{
+      if (resp) {
+        let indice = this.R_comentarios_list.findIndex(rspitm=>rspitm.id==respuesta_comentario.id);
+        this.R_comentarios_list.splice(indice,1);
+      }
+    });
+  }
+  loadRespuestas(){
+    this.Comentario.Respuestas?.forEach(Rc => {
+      this.R_comentarios_list.push(Rc);
+    });
+  }
   responderAcomentarioVista(){
 
     this.vistaResponderComentario =! this.vistaResponderComentario;
@@ -103,15 +152,7 @@ export class ComentariosComponent implements OnInit{
       }
     }
   }
-
-  respuestaComentario(){
-  }
-
-  openUpdateComentario(){
-    this.completeComment_=false;
-    this.editComment_=true;
-    this.ng_model_editar_comentario=this.Comentario.comentarios;
-  }
+  /////END CRUD RESPUESTAS A COMENTARIO
 
   //END CRUD COMENTARIOS
 
@@ -140,6 +181,12 @@ export class ComentariosComponent implements OnInit{
       }
     });
       return likeComment;
+  }
+
+  loadlikes(){
+    this.Comentario.Likes?.forEach(lkc => {
+      this.megusta.push(lkc);
+    });
   }
 
   //END CRUD LIKES

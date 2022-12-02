@@ -17,9 +17,8 @@ export class IsAuthGuard implements CanActivate, CanActivateChild {
     if (token=='') {
         return true
     }else{
-
-      return false;
       this.route.navigate(['publicaciones']);
+      return false;
     }
 
   }

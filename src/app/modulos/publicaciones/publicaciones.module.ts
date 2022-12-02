@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ComentariosComponent } from './publicacion-item/comentarios/comentarios.component';
 import { EliminarComentarioComponent } from './publicacion-item/comentarios/modals/eliminar-comentario/eliminar-comentario.component';
 import { OrdenamientoUsuariosPipe } from 'src/app/pipes/ordenamiento-usuarios.pipe';
+import { RespuestaComentarioComponent } from './publicacion-item/comentarios/respuesta-comentario/respuesta-comentario.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { OrdenamientoUsuariosPipe } from 'src/app/pipes/ordenamiento-usuarios.pi
     EliminarPublicacionComponent,
     ComentariosComponent,
     EliminarComentarioComponent,
-    OrdenamientoUsuariosPipe
+    OrdenamientoUsuariosPipe,
+    RespuestaComentarioComponent
 
   ],
   imports: [

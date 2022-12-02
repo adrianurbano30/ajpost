@@ -22,5 +22,16 @@ export class ComentarioService {
     return this.http.delete<Comentario>(`${this.api}/delete_comentario/${Comentario.id}`);
   }
 
+  ////RESPUESTAS TO COMENTARIO
+  respuestaComentario(comentario:Comentario):Observable<Comentario>{
+    return this.http.post<Comentario>(`${this.api}/response_comentario`,comentario);
+  }
+  updateRespuesta(respuesta:Comentario):Observable<Comentario>{
+    return this.http.put<Comentario>(`${this.api}/update_respuesta/${respuesta.id}`,respuesta);
+  }
+  eliminarRespuesta(respuesta:Comentario):Observable<Comentario>{
+    return this.http.delete<Comentario>(`${this.api}/delete_respuesta/${respuesta.id}`);
+  }
+
 
 }
