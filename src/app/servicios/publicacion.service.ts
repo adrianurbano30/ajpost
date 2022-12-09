@@ -15,6 +15,9 @@ export class PublicacionService {
   getpublicaciones():Observable<Publicacion[]>{
     return this.http.get<Publicacion[]>(`${this.api}/get_publicaciones`);
   }
+  getpublicacion(id:number):Observable<Publicacion>{
+    return this.http.get<Publicacion>(`${this.api}/get_publicacion/${id}`);
+  }
 
   crearPublicacion(archivos:FormData):Observable<Publicacion>{
     const headers = new HttpHeaders();

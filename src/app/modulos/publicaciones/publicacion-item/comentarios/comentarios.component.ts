@@ -141,6 +141,9 @@ export class ComentariosComponent implements OnInit{
     this.Comentario.Respuestas?.forEach(Rc => {
       this.R_comentarios_list.push(Rc);
     });
+
+
+
   }
   responderAcomentarioVista(){
 
@@ -188,11 +191,7 @@ export class ComentariosComponent implements OnInit{
       this.megusta.push(lkc);
     });
   }
-
   //END CRUD LIKES
-
-
-
 
  ///*********************************************************************************************************************** */
 

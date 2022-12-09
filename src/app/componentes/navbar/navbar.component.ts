@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit{
 
   isruta():Boolean{
     let bandera:Boolean = false;
-    if (this.router.url=='/auth/login' || this.router.url=='/auth/registro') {
+    if (this.router.url=='/auth/login' || this.router.url=='/auth/registro' ) {
         bandera=false;
         return bandera;
     }else{

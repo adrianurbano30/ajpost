@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Comentario } from '../modelos/Comentario';
+import { Imagenes } from '../modelos/Imagenes';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,14 @@ export class ComentarioService {
   eliminarComentario(Comentario:Comentario):Observable<Comentario>{
     return this.http.delete<Comentario>(`${this.api}/delete_comentario/${Comentario.id}`);
   }
+
+  //COMENTARIO IMAGEN////
+
+  comentarioImagen(fd:FormData):Observable<Comentario>{
+    return this.http.post<Comentario>(`${this.api}/comentarioImagen`,fd);
+  }
+
+  //COMENTARIO IMAGEN///
 
   ////RESPUESTAS TO COMENTARIO
   respuestaComentario(comentario:Comentario):Observable<Comentario>{

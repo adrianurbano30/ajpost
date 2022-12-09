@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ResolveStart } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { faCalendarDay, faCommentDots, faEllipsisV, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Publicacion } from 'src/app/modelos/Publicacion';
 import { User } from 'src/app/modelos/User';
-import { AuthService } from 'src/app/servicios/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CrearPublicacionComponent } from './modals/crear-publicacion/crear-publicacion.component';
 import { PublicacionService } from 'src/app/servicios/publicacion.service';

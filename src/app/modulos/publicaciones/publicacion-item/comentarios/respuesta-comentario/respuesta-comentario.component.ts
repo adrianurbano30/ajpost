@@ -20,6 +20,9 @@ export class RespuestaComentarioComponent implements OnInit{
 @Output() editar_respuesta_comentario:EventEmitter<Comentario> = new EventEmitter();
 @Output() eliminar_respuesta_comentario:EventEmitter<Comentario> = new EventEmitter();
 
+
+
+
 iconoMnuComentario=faEllipsisV;
 iconoLike=faThumbsUp;
 iconoComentarComentario=faComment;
@@ -174,6 +177,7 @@ loadRespuestas(){
   this.respuesta.Respuestas?.forEach(rr => {
     this.respuestas_list.push(rr);
   });
+
 }
 
 //END CRUD RESPUESTAS COMENTARIO

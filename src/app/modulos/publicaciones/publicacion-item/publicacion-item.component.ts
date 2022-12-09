@@ -197,11 +197,6 @@ export class PublicacionItemComponent implements OnInit{
         let comentariu:Comentario = respuesta.data;
 
         this.comentariosList.unshift(comentariu);
-
-        // if(!this.usuariosComentario.find(usr=>usr.id==respuesta.data.User.id)){
-        //   this.usuariosComentario.unshift(respuesta.data.User);
-        // }
-
         this.usuariosComentario.unshift(respuesta.data.User);
 
       });
@@ -266,21 +261,485 @@ export class PublicacionItemComponent implements OnInit{
         username:String(clU.User?.username),
         foto_perfil:String(clU.User?.foto_perfil)
       }
-
-      // if(!this.usuariosComentario.find(usr=>usr.id==usuario.id)){
-      //   this.usuariosComentario.push(usuario);
-      // }
       this.usuariosComentario.push(usuario);
+
+      if (clU.Respuestas) {
+
+        clU.Respuestas.forEach(clU1 => {
+
+          if (clU1.User) {
+            this.usuariosComentario.push(clU1.User);
+
+              clU1.Respuestas?.forEach(clU2 => {
+
+                if (clU2.User) {
+
+                  this.usuariosComentario.push(clU2.User);
+
+                  clU2.Respuestas?.forEach(clU3 => {
+
+                    if (clU3.User) {
+
+                      this.usuariosComentario.push(clU3.User);
+
+                      clU3.Respuestas?.forEach(clU4 => {
+
+                        if (clU4.User) {
+
+                          this.usuariosComentario.push(clU4.User);
+
+                          clU4.Respuestas?.forEach(clU5 => {
+
+                            if (clU5.User) {
+
+                              this.usuariosComentario.push(clU5.User);
+
+                              clU5.Respuestas?.forEach(clU6 => {
+
+                                if (clU6.User) {
+
+                                  this.usuariosComentario.push(clU6.User);
+
+                                  clU6.Respuestas?.forEach(clU7 => {
+
+                                    if (clU7.User) {
+
+                                      this.usuariosComentario.push(clU7.User);
+
+                                      clU7.Respuestas?.forEach(clU8 => {
+
+                                        if (clU8.User) {
+
+                                          this.usuariosComentario.push(clU8.User);
+
+                                          clU8.Respuestas?.forEach(clU9 => {
+
+                                            if (clU9.User) {
+
+                                              this.usuariosComentario.push(clU9.User);
+
+                                              clU9.Respuestas?.forEach(clU10 => {
+
+                                                if (clU10.User) {
+
+                                                  this.usuariosComentario.push(clU10.User);
+
+                                                  clU10.Respuestas?.forEach(clU11 => {
+
+                                                    if (clU11.User) {
+
+                                                      this.usuariosComentario.push(clU11.User);
+
+                                                      clU11.Respuestas?.forEach(clU12 => {
+
+                                                        if (clU12.User) {
+
+                                                          this.usuariosComentario.push(clU12.User);
+
+                                                          clU12.Respuestas?.forEach(clU13 => {
+
+                                                            if (clU13.User) {
+
+                                                              this.usuariosComentario.push(clU13.User);
+
+                                                              clU13.Respuestas?.forEach(clU14 => {
+
+                                                                if (clU14.User) {
+
+                                                                  this.usuariosComentario.push(clU14.User);
+
+                                                                  clU14.Respuestas?.forEach(clU15 => {
+
+                                                                    if (clU15.User) {
+
+                                                                      this.usuariosComentario.push(clU15.User);
+
+                                                                      clU15.Respuestas?.forEach(clU16 => {
+
+                                                                        if (clU16.User) {
+
+                                                                          this.usuariosComentario.push(clU16.User);
+
+                                                                          clU16.Respuestas?.forEach(clU17 => {
+
+                                                                            if (clU17.User) {
+
+                                                                              this.usuariosComentario.push(clU17.User);
+
+                                                                              clU17.Respuestas?.forEach(clU18 => {
+
+                                                                                if (clU18.User) {
+
+                                                                                  this.usuariosComentario.push(clU18.User);
+
+                                                                                  clU18.Respuestas?.forEach(clU19 => {
+
+                                                                                    if (clU19.User) {
+
+                                                                                      this.usuariosComentario.push(clU19.User);
+
+                                                                                      clU19.Respuestas?.forEach(clU20 => {
+
+                                                                                        if (clU20.User) {
+
+                                                                                          this.usuariosComentario.push(clU20.User);
+
+                                                                                        }
+
+                                                                                      });
+
+                                                                                    }
+
+                                                                                  });
+
+                                                                                }
+
+                                                                              });
+
+                                                                            }
+
+                                                                          });
+
+                                                                        }
+
+                                                                      });
+
+                                                                    }
+
+                                                                  });
+
+                                                                }
+
+                                                              });
+
+                                                            }
+
+                                                          });
+
+                                                        }
+
+                                                      });
+
+                                                    }
+
+                                                  });
+
+                                                }
+
+                                              });
+
+                                            }
+
+                                          });
+
+                                        }
+
+                                      });
+
+                                    }
+
+                                  });
+
+                                }
+
+                              });
+
+                            }
+
+                          });
+
+                        }
+
+                      });
+
+                    }
+
+                  });
+
+                }
+
+            });
+
+          }
+
+
+        });
+
+      }
 
     });
   }
 
   //END CRUD COMENTARIOS
 
-
-
   cantElementosArray(array:any[]):number{
     return array.length;
+  }
+
+  cantComentariosPost():Number{
+
+    let contador:number=0;
+
+    contador = contador + this.comentariosList.length;
+
+    this.comentariosList.forEach(CL => {
+
+      if (CL.Respuestas) {
+
+        contador = contador + CL.Respuestas?.length;
+
+        CL.Respuestas.forEach(Rc => {
+
+          if (Rc.Respuestas) {
+
+            contador = contador + Rc.Respuestas.length;
+
+            Rc.Respuestas.forEach(RR => {
+
+              if (RR.Respuestas) {
+
+                contador = contador + RR.Respuestas.length;
+
+                RR.Respuestas.forEach(Rr => {
+
+                  if (Rr.Respuestas) {
+
+                    contador = contador + Rr.Respuestas.length;
+
+                    Rr.Respuestas.forEach(Rr1 => {
+
+                      if (Rr1.Respuestas) {
+
+                        contador = contador + Rr1.Respuestas.length;
+
+                        Rr1.Respuestas.forEach(Rr2 => {
+
+                          if (Rr2.Respuestas) {
+
+                            contador = contador + Rr2.Respuestas.length;
+
+                            Rr2.Respuestas.forEach(Rr3 => {
+
+                              if (Rr3.Respuestas) {
+
+                                contador = contador + Rr3.Respuestas.length;
+
+                                Rr3.Respuestas.forEach(Rr4 => {
+
+                                  if (Rr4.Respuestas) {
+
+                                    contador = contador + Rr4.Respuestas.length;
+
+                                    Rr4.Respuestas.forEach(Rr5 => {
+
+                                      if (Rr5.Respuestas) {
+
+                                        contador = contador + Rr5.Respuestas.length;
+
+                                        Rr5.Respuestas.forEach(Rr6 => {
+
+                                          if (Rr6.Respuestas) {
+
+                                            contador = contador + Rr6.Respuestas.length;
+
+                                            Rr6.Respuestas.forEach(Rr7 => {
+
+                                              if (Rr7.Respuestas) {
+
+                                                contador = contador + Rr7.Respuestas.length;
+
+                                                Rr7.Respuestas.forEach(Rr8 => {
+
+                                                  if (Rr8.Respuestas) {
+
+                                                    contador = contador + Rr8.Respuestas.length;
+
+                                                    Rr8.Respuestas.forEach(Rr9 => {
+
+                                                      if (Rr9.Respuestas) {
+
+                                                        contador = contador + Rr9.Respuestas.length;
+
+                                                        Rr9.Respuestas.forEach(Rr10 => {
+
+                                                          if (Rr10.Respuestas) {
+
+                                                            contador = contador + Rr10.Respuestas.length;
+
+                                                            Rr10.Respuestas.forEach(Rr11 => {
+
+                                                              if (Rr11.Respuestas) {
+
+                                                                contador = contador + Rr11.Respuestas.length;
+
+                                                                Rr11.Respuestas.forEach(Rr12 => {
+
+                                                                  if (Rr12.Respuestas) {
+
+                                                                    contador = contador + Rr12.Respuestas.length;
+
+                                                                    Rr12.Respuestas.forEach(Rr13 => {
+
+                                                                      if (Rr13.Respuestas) {
+
+                                                                        contador = contador + Rr13.Respuestas.length;
+
+                                                                        Rr13.Respuestas.forEach(Rr14 => {
+
+                                                                          if (Rr14.Respuestas) {
+
+                                                                            contador = contador + Rr14.Respuestas.length;
+
+                                                                            Rr14.Respuestas.forEach(Rr15 => {
+
+                                                                              if (Rr15.Respuestas) {
+
+                                                                                contador = contador + Rr15.Respuestas.length;
+
+                                                                                Rr15.Respuestas.forEach(Rr16 => {
+
+                                                                                  if (Rr16.Respuestas) {
+
+                                                                                    contador = contador + Rr16.Respuestas.length;
+
+                                                                                    Rr16.Respuestas.forEach(Rr17 => {
+
+                                                                                      if (Rr17.Respuestas) {
+
+                                                                                        contador = contador + Rr17.Respuestas.length;
+
+                                                                                        Rr17.Respuestas.forEach(Rr18 => {
+
+                                                                                          if (Rr18.Respuestas) {
+
+                                                                                            contador = contador + Rr18.Respuestas.length;
+
+                                                                                            Rr18.Respuestas.forEach(Rr19 => {
+
+                                                                                              if (Rr19.Respuestas) {
+
+                                                                                                contador = contador + Rr19.Respuestas.length;
+
+                                                                                                Rr19.Respuestas.forEach(Rr20 => {
+
+                                                                                                  if (Rr20.Respuestas) {
+
+                                                                                                    contador = contador + Rr20.Respuestas.length;
+
+                                                                                                    Rr20.Respuestas.forEach(Rr21 => {
+
+                                                                                                      if (Rr21.Respuestas) {
+
+                                                                                                        contador = contador + Rr21.Respuestas.length;
+
+                                                                                                      }
+
+                                                                                                    });
+
+                                                                                                  }
+
+                                                                                                });
+
+                                                                                              }
+
+                                                                                            });
+
+                                                                                          }
+
+                                                                                        });
+
+                                                                                      }
+
+                                                                                    });
+
+                                                                                  }
+
+                                                                                });
+
+                                                                              }
+
+                                                                            });
+
+                                                                          }
+
+                                                                        });
+
+                                                                      }
+
+                                                                    });
+
+                                                                  }
+
+                                                                });
+
+                                                              }
+
+                                                            });
+
+                                                          }
+
+                                                        });
+
+
+                                                      }
+
+                                                    });
+
+                                                  }
+
+                                                });
+
+                                              }
+
+                                            });
+
+                                          }
+
+                                        });
+
+                                      }
+
+                                    });
+
+
+                                  }
+
+                                });
+
+
+                              }
+
+                            });
+
+                          }
+
+                        });
+
+
+                      }
+
+                    });
+
+                  }
+
+                });
+
+              }
+
+            });
+
+
+          }
+
+        });
+
+      }
+    });
+
+
+
+    return contador;
+
   }
 
 }

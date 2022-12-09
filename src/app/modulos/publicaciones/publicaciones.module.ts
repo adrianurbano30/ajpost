@@ -18,6 +18,7 @@ import { ComentariosComponent } from './publicacion-item/comentarios/comentarios
 import { EliminarComentarioComponent } from './publicacion-item/comentarios/modals/eliminar-comentario/eliminar-comentario.component';
 import { OrdenamientoUsuariosPipe } from 'src/app/pipes/ordenamiento-usuarios.pipe';
 import { RespuestaComentarioComponent } from './publicacion-item/comentarios/respuesta-comentario/respuesta-comentario.component';
+import { FotosPostComponent } from './fotos-post/fotos-post.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { RespuestaComentarioComponent } from './publicacion-item/comentarios/res
     ComentariosComponent,
     EliminarComentarioComponent,
     OrdenamientoUsuariosPipe,
-    RespuestaComentarioComponent
+    RespuestaComentarioComponent,
+    FotosPostComponent
 
   ],
   imports: [
@@ -41,7 +43,7 @@ import { RespuestaComentarioComponent } from './publicacion-item/comentarios/res
     MatMenuModule,
     FormsModule,
     FontAwesomeModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers:[
     CookieService,
