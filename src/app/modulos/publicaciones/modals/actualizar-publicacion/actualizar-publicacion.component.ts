@@ -2,6 +2,7 @@ import { Component,Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faBowlFood, faCarOn, faDog, faFaceSmile, faMobileRetro, faPersonSwimming, faWheelchairMove, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Comentario } from 'src/app/modelos/Comentario';
 import { Imagenes } from 'src/app/modelos/Imagenes';
 import { Publicacion } from 'src/app/modelos/Publicacion';
 import { User } from 'src/app/modelos/User';
@@ -42,10 +43,14 @@ export class ActualizarPublicacionComponent {
     })
     if (this.publicacion.Imagenes) {
       let img:Imagenes;
+
+      let cmt:Comentario[]=[];
+
       this.publicacion.Imagenes.forEach((element:Imagenes) => {
         img={
           id:element.id,
-          url:'http://localhost/laravel/jwt_backend/public/'+element.url
+          url:'http://localhost/laravel/jwt_backend/public/'+element.url,
+          Comentarios:cmt
         }
         //this.imageSrc.push('http://jwt_backend.test/'+element.url);
         this.imageSrc2.push(img);
@@ -66,9 +71,11 @@ export class ActualizarPublicacionComponent {
         reader.readAsDataURL(event.target.files[index])
         reader.onload = () => {
           //this.imageSrc.push(reader.result as string);
+          let comentarios:Comentario[]=[];
           img={
             id:NaN,
-            url:reader.result as string
+            url:reader.result as string,
+            Comentarios:comentarios,
           }
           this.imageSrc2.push(img);
         };

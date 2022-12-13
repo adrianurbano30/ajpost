@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit{
 
   isruta():Boolean{
     let bandera:Boolean = false;
-    if (this.router.url=='/auth/login' || this.router.url=='/auth/registro' ) {
+    if (this.router.url=='/auth/login' || this.router.url=='/auth/registro') {
         bandera=false;
         return bandera;
     }else{
@@ -50,7 +50,11 @@ export class NavbarComponent implements OnInit{
   }
   cerrarSesion(){
     this.authsvc.cerrarSesion().subscribe(res=>{
-      this.router.navigate(['auth/login']);
+      if (res) {
+        this.cookiesvc.delete('token');
+        this.router.navigate(['auth/login']);
+      }
+
     });
   }
 }

@@ -19,6 +19,7 @@ import { EliminarComentarioComponent } from './publicacion-item/comentarios/moda
 import { OrdenamientoUsuariosPipe } from 'src/app/pipes/ordenamiento-usuarios.pipe';
 import { RespuestaComentarioComponent } from './publicacion-item/comentarios/respuesta-comentario/respuesta-comentario.component';
 import { FotosPostComponent } from './fotos-post/fotos-post.component';
+import { OrdenamientoUsuariosComentariosImagenesPipe } from 'src/app/pipes/ordenamiento-usuarios-comentarios-imagenes.pipe';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { FotosPostComponent } from './fotos-post/fotos-post.component';
     ComentariosComponent,
     EliminarComentarioComponent,
     OrdenamientoUsuariosPipe,
+    OrdenamientoUsuariosComentariosImagenesPipe,
     RespuestaComentarioComponent,
     FotosPostComponent
 

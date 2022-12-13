@@ -28,6 +28,12 @@ export class ComentarioService {
   comentarioImagen(fd:FormData):Observable<Comentario>{
     return this.http.post<Comentario>(`${this.api}/comentarioImagen`,fd);
   }
+  actualizarComentarioImg(comentario:Comentario):Observable<Comentario>{
+    return this.http.put<Comentario>(`${this.api}/update_comentario_imagen/${comentario.id}`,comentario);
+  }
+  eliminarComentarioImg(comentario:Comentario):Observable<Comentario>{
+    return this.http.delete<Comentario>(`${this.api}/delete_comentario_img/${comentario.id}`);
+  }
 
   //COMENTARIO IMAGEN///
 

@@ -7,7 +7,7 @@
     <div class="lg:w-5/6 xl:w-5/6 2xl:w-5/6  text-justify p-2 flex items-center ">
         <div class="overflow-x-auto w-full relative overflow-y-hidden m-auto" style="height:800px">
           <div class="flex  m-auto overflow-x-hidden" style="width:700px;height:800px;max-height: 800px;">
-              <img  *ngIf="publicacion.Imagenes" class="w-full h-full object-contain  m-auto" src="http://localhost/laravel/jwt_backend/public/{{ publicacion.Imagenes[indice].url }}">
+              <img title="s" *ngIf="publicacion.Imagenes" class="w-full h-full object-contain  m-auto" src="http://localhost/laravel/jwt_backend/public/{{ publicacion.Imagenes[indice].url }}">
           </div>
 
           <fa-icon (click)="toleft()" *ngIf="cantItemsArr(publicacion.Imagenes)>1" style="top: 50%;" class="absolute  left-2 text-gray-100   text-4xl   cursor-pointer" [icon]="left"  ></fa-icon>
@@ -27,7 +27,7 @@
 
             <div class="flex items-center justify-between mx-1 border-b-2 border-gray-200">
               <div class="flex items-center space-x-1">
-                <img class="my-2 rounded-full w-11 h-11" src="{{publicacion.user.foto_perfil}}">
+                <img title="a" class="my-2 rounded-full w-11 h-11" src="{{publicacion.user.foto_perfil}}">
                     <div class="font-medium dark:text-white">
                         <div> {{publicacion.user.name}}  {{publicacion.user.lastname}}</div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -48,25 +48,14 @@
                   </div>
                 </mat-menu>
               </div>
-              <!-- <div>
-                <fa-icon [matMenuTriggerFor]="menuPost" class="w-auto p-1 mr-2 text-lg rounded-full cursor-pointer h-7" [icon]="iconoMnuPublicacion"  ></fa-icon>
-                <mat-menu  #menuPost="matMenu">
-                  <div *ngIf="UsuarioLogged.id==publicacion.user.id">
-                    <span  mat-menu-item class="mx-2 font-bold text-white">Editar Publicacion</span>
-                    <span  mat-menu-item class="mx-2 font-bold text-white">Eliminar Publicacion</span>
-                  </div>
-                  <div *ngIf="UsuarioLogged.id!=publicacion.user.id">
-                  <span mat-menu-item class="mx-2 font-bold text-white">Ocultar Publicacion</span>
-                  </div>
-                </mat-menu>
-              </div> -->
+
             </div>
 
             <!--end usuario creador y mnu crud -->
 
             <!-- body of the post -->
 
-            <div *ngIf="publicacion.body" class="flex items-start justify-start text-justify overflow-y-auto h-32 py-2 px-1">
+            <div *ngIf="publicacion.body" [ngClass]="{'overflow-y-auto h-32': publicacion.body.length>50}" class="flex  items-start justify-start text-justify   py-2 px-1">
               {{publicacion.body}}
             </div>
 
@@ -75,8 +64,42 @@
             <!-- iconos like y comentarios -->
 
             <div class="flex items-center justify-between  border-b-2 border-gray-200 py-2">
-              <fa-icon  class="w-4 h-4 ml-1 text-md" [icon]="iconoLike"  ></fa-icon>
-              <fa-icon  class="w-4 h-4 ml-1 text-md" [icon]="iconoComentarios"  ></fa-icon>
+              <!-- likes -->
+              <div class="relative">
+                <fa-icon (click)="crearLike()" [ngClass]="{'text-sky-500 ': likedBy()}"  class="w-4 h-4 ml-1 text-md mr-1 cursor-pointer transition duration-700" [icon]="iconoLike"  ></fa-icon>
+                <span (mouseout)="listaUsuariosLikes_show=false" (mouseover)="listaUsuariosLikes_show=true" >{{ cantLikesIMG() > 0 ? cantLikesIMG(): ''}}</span>
+                <div class="absolute z-50 w-48 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 left-6 text-white text-xs" *ngIf="listaUsuariosLikes_show">
+                  <div *ngIf="comentarios_img_list[indice].Likes" class="flex items-start">
+                    <div  class="grid grid-cols-1">
+                      <span   *ngFor="let usuarioC of comentarios_img_list[indice].Likes">
+                        {{usuarioC.User?.name}}{{usuarioC.User?.lastname}}
+
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end likes -->
+              <!-- comentarios -->
+              <div class="relative">
+                <span (mouseout)="listaUsuariosComentarios_show=false" (mouseover)="listaUsuariosComentarios_show=true" >{{ cantComentariosIMG() > 0 ? cantComentariosIMG(): ''}}</span>
+                <fa-icon  class="w-4 h-4 ml-1 text-md" [icon]="iconoComentarios"  ></fa-icon>
+                <div class="absolute  z-50 w-48 p-1 transition duration-500 bg-gray-800 top-2 bg-opacity-70 right-12 text-white text-xs"  *ngIf="listaUsuariosComentarios_show">
+                    <div *ngIf="comentarios_img_list[indice].Comentarios" class="flex items-start">
+                      <div  class="grid grid-cols-1">
+                        <span   *ngFor="let usuarioC of (comentarios_img_list[indice].Comentarios | ordenamientoUsuariosComentariosImagenes) | slice:0:10 ; let i = index">
+                          {{usuarioC.name}}{{usuarioC.lastname}}
+                          <p *ngIf="i==9">
+                            y {{(comentarios_img_list[indice].Comentarios.length)-9}} personas mas
+                          </p>
+                        </span>
+
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <!--end comentarios -->
             </div>
 
             <!--end iconos like y comentarios -->
@@ -86,16 +109,19 @@
             <div class="w-full">
 
               <div  class="flex items-center w-full my-2">
-                <img class="z-50 object-cover w-8 h-8 mr-1 rounded-full" src="{{UsuarioLogged.foto_perfil}}">
+                <img title="d" class="z-20 object-cover w-8 h-8 mr-1 rounded-full" src="{{UsuarioLogged.foto_perfil}}">
                 <input (keyup.enter)="crearComentario()" [(ngModel)]="ng_module_comentario_imagen" class="w-full p-1 pl-2 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none"  autofocus placeholder="Escribe aqui tus comentarios {{UsuarioLogged.name}}">
               </div>
 
-              <!-- [ngClass]="{'h-96':comentarios_img_list[indice].Comentarios.length>10}" -->
 
-              <div  style="height: 40rem;" class="w-auto my-2 overflow-x-auto  overflow-y-auto">
+
+
+              <div style="height: 40rem;"  class="w-auto overflow-x-auto  overflow-y-auto">
                 <app-comentarios *ngFor="let comentario of comentarios_img_list[indice].Comentarios"
                               [Comentario]="comentario"
                               [UsuarioLogged]="UsuarioLogged"
+                              (editarComentario)="editarComentario($event)"
+                              (eliminarComentario)="eliminarComentario($event)"
                               >
                 </app-comentarios>
             </div>

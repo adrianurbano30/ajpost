@@ -4,7 +4,7 @@
 
   <div class="flex items-center justify-between mx-1 border-b-2 border-gray-200">
     <div class="flex items-center space-x-1">
-      <img class="my-2 rounded-full w-11 h-11" src="{{publicacion.user.foto_perfil}}">
+      <img title="lsas" class="my-2 rounded-full w-11 h-11" src="{{publicacion.user.foto_perfil}}">
           <div class="font-medium dark:text-white">
               <div> {{publicacion.user.name}}  {{publicacion.user.lastname}}</div>
               <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -150,11 +150,11 @@
     <!-- LISTA DE COMENTARIOS -->
   <div  class="w-full pt-2 my-1 border-t-2 border-gray-200 " *ngIf="comentarioslista">
     <div class="flex items-center w-full mb-1">
-      <img class="object-cover mr-1 rounded-full w-9 h-9" src="{{UsuarioLogged.foto_perfil}}">
+      <img title="ats" class="object-cover mr-1 rounded-full w-9 h-9" src="{{UsuarioLogged.foto_perfil}}">
       <input type="text" (keyup.enter)="crear_comentario()" [(ngModel)]="comentario" class="w-full p-1 pl-2 font-serif text-base text-black placeholder-gray-500 transition duration-700 border-2 border-gray-300 shadow-inner cursor-pointer sm:text-sm rounded-xl focus:border-gray-500 focus:ring-gray-500 focus:no-underline focus:outline-none" autofocus placeholder="Escribe aqui tus comentarios {{UsuarioLogged.name}}">
     </div>
 
-    <div [ngClass]="{'h-96': comentariosList.length>10}" class="w-auto my-2 overflow-x-hidden overflow-y-auto">
+    <div [ngClass]="{'h-80': comentariosList.length>5}" class="w-auto my-2 overflow-x-hidden overflow-y-auto">
         <app-comentarios *ngFor="let comentario of comentariosList"
                       [Comentario]="comentario"
                       [UsuarioLogged]="UsuarioLogged"

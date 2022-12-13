@@ -64,7 +64,7 @@ export class AuthService {
         (respuesta)=>{
           console.log('respuesta server->',respuesta);
           this.usuarioLogueado$.next(this.usuario);
-          this.cookiesvc.deleteAll();
+          this.cookiesvc.delete('token');
         }
       )
     )
