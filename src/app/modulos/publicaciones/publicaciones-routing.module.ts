@@ -8,7 +8,7 @@ import { PublicacionesComponent } from './publicaciones.component';
 
 const routes: Routes = [
   {path:'',resolve:{usuario:UsuarioauthResolver,publicaciones:PublicacionResolver},component:PublicacionesComponent},
-  {path:'fotos-post',resolve:{usuario:UsuarioauthResolver,publicacion:PhotosResolver},component:FotosPostComponent },
+  {path:'fotos-post',component:FotosPostComponent},
   {path:'**',redirectTo:'',pathMatch:'full'}
 ];
 

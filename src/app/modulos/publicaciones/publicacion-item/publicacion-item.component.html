@@ -47,8 +47,7 @@
     <div class="flex items-center justify-center h-full">
       <div  class="grid grid-cols-1 h-auto w-full" *ngIf="cantElementosArray(publicacion.Imagenes)==1">
         <div *ngFor="let img of publicacion.Imagenes;let indice=index " >
-               <a routerLink="fotos-post" [queryParams]="{post_id:publicacion.id,index:indice}"><img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
-               <!-- src="http://localhost/laravel/jwt_backend/public/{{img.url}}" -->
+               <a routerLink="fotos-post" (click)="fotos_post()" [queryParams]="{post_id:publicacion.id,index:indice}"><img title="a"  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
         </div>
       </div>
     </div>
@@ -57,7 +56,7 @@
     <!--cantidad de imgs 2-->
     <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)==2">
       <div *ngFor="let img of publicacion.Imagenes ;let indice=index " >
-        <a routerLink="fotos-post" [queryParams]="{post_id:publicacion.id,index:indice}"><img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
+        <a routerLink="fotos-post" (click)="fotos_post()" [queryParams]="{post_id:publicacion.id,index:indice}"><img title="b" class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
       </div>
     </div>
     <!--end cantidad de imgs2-->
@@ -65,7 +64,7 @@
     <!--cantidad de imgs 3-->
     <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)==3">
       <div *ngFor="let img of publicacion.Imagenes ; let indice = index" [ngClass]="{'row-span-3 h-96': indice===0,'h-48':indice>0}" >
-        <a routerLink="fotos-post" [queryParams]="{post_id:publicacion.id,index:indice}"><img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
+        <a routerLink="fotos-post" (click)="fotos_post()" [queryParams]="{post_id:publicacion.id,index:indice}"><img title="c"   class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
       </div>
     </div>
     <!--end cantidad de imgs 3-->
@@ -73,7 +72,7 @@
     <!--cantidad de imgs 4-->
     <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)==4">
       <div *ngFor="let img of publicacion.Imagenes ; let indice = index" [ngClass]="{'row-span-3 h-96': indice===0,'h-32':indice>0}" >
-        <a routerLink="fotos-post" [queryParams]="{post_id:publicacion.id,index:indice}"><img  class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
+        <a routerLink="fotos-post" (click)="fotos_post()" [queryParams]="{post_id:publicacion.id,index:indice}"><img  title="d" class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
       </div>ndice
     </div>
     <!--end cantidad de imgs 4-->
@@ -81,7 +80,7 @@
     <!--cantidad de imgs >4-->
     <div  class="grid w-full grid-cols-2 gap-1" *ngIf="cantElementosArray(publicacion.Imagenes)>=5">
       <div *ngFor="let img of publicacion.Imagenes | slice:0:4 ; let indice = index" class="relative" [ngClass]="{'row-span-3 h-96': indice===0,'h-32':indice>0}" >
-        <a routerLink="fotos-post" [queryParams]="{post_id:publicacion.id,index:indice}"><img  *ngIf="indice<4" [ngClass]="{'blur-sm': indice==3}" class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
+        <a routerLink="fotos-post" (click)="fotos_post()" [queryParams]="{post_id:publicacion.id,index:indice}"><img title="d" *ngIf="indice<4" [ngClass]="{'blur-sm': indice==3}" class="object-cover w-full h-full" src="http://localhost/laravel/jwt_backend/public/{{img.url}}"></a>
         <p *ngIf="indice==3" style="top: 50%;right:50%;user-select: none" class="absolute flex items-center justify-center text-4xl font-extrabold text-center text-blue-600 transition duration-500 hover:text-sky-300 ">
           + {{cantElementosArray(publicacion.Imagenes)-4}}
         </p>

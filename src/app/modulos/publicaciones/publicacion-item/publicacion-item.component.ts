@@ -7,6 +7,7 @@ import { Publicacion } from 'src/app/modelos/Publicacion';
 import { User } from 'src/app/modelos/User';
 import { ComentarioService } from 'src/app/servicios/comentario.service';
 import { LikeService } from 'src/app/servicios/like.service';
+import { PostPhotoDataService } from 'src/app/servicios/post-photo-data.service';
 import { ActualizarPublicacionComponent } from '../modals/actualizar-publicacion/actualizar-publicacion.component';
 import { EliminarPublicacionComponent } from '../modals/eliminar-publicacion/eliminar-publicacion.component';
 
@@ -43,12 +44,20 @@ export class PublicacionItemComponent implements OnInit{
     private modal:MatDialog,
     private likesvc:LikeService,
     private comentariosvc:ComentarioService,
+    private post_photo_data_svc:PostPhotoDataService,
   )
   {}
   ngOnInit(): void {
     this.loadMegusta();
     this.loadComentarios();
   }
+
+  ////////////////////***************************************
+  fotos_post(){
+    this.post_photo_data_svc.publicacion = this.publicacion;
+    this.post_photo_data_svc.UsuarioLogged = this.UsuarioLogged;
+  }
+  ////////////////////***************************************
 
   //CRUD PUBLICACIONES
   abrirModalActualizarPublicacion():void{

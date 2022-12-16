@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faCalendarDay, faCommentDots, faEllipsisV, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Publicacion } from 'src/app/modelos/Publicacion';
@@ -6,13 +6,14 @@ import { User } from 'src/app/modelos/User';
 import { MatDialog } from '@angular/material/dialog';
 import { CrearPublicacionComponent } from './modals/crear-publicacion/crear-publicacion.component';
 import { PublicacionService } from 'src/app/servicios/publicacion.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-publicaciones',
   templateUrl: './publicaciones.component.html',
   styleUrls: ['./publicaciones.component.scss']
 })
-export class PublicacionesComponent {
+export class PublicacionesComponent implements OnInit{
 
   iconoCalendario=faCalendarDay;
   iconoMnuPublicacion=faEllipsisV;
@@ -24,9 +25,11 @@ export class PublicacionesComponent {
   constructor(
     private publicacionsvc:PublicacionService,
     private routeAct:ActivatedRoute,
-    public modal:MatDialog
+    public modal:MatDialog,
+    private cookiesvc:CookieService
     )
-    {
+    {}
+    ngOnInit(): void {
       this.UsuarioLogged = this.routeAct.snapshot.data['usuario'].user;
       this.publicaciones = this.routeAct.snapshot.data['publicaciones'].data;
     }
@@ -85,7 +88,6 @@ export class PublicacionesComponent {
       });
 
     }
-
     editarPublicacion(fd:FormData){
       this.publicacionsvc.actulizarPublicacion(fd).subscribe((resultado:any)=>{
 

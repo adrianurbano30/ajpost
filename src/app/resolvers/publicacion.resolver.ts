@@ -13,6 +13,8 @@ import { PublicacionService } from '../servicios/publicacion.service';
 })
 export class PublicacionResolver implements Resolve<Publicacion[]> {
 
+  publicaciones:Publicacion[]=[];
+
   constructor(private publicacionsvc:PublicacionService)
   {}
 

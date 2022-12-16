@@ -1,4 +1,5 @@
 import { Component,OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCalendarDay, faChevronLeft, faChevronRight, faComment, faEllipsisV, faThumbsUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Comentario } from 'src/app/modelos/Comentario';
@@ -8,6 +9,7 @@ import { Publicacion } from 'src/app/modelos/Publicacion';
 import { User } from 'src/app/modelos/User';
 import { ComentarioService } from 'src/app/servicios/comentario.service';
 import { LikeService } from 'src/app/servicios/like.service';
+import { PostPhotoDataService } from 'src/app/servicios/post-photo-data.service';
 
 @Component({
   selector: 'app-fotos-post',
@@ -38,15 +40,19 @@ export class FotosPostComponent implements OnInit{
     private routeract:ActivatedRoute,
     private comentariosvc:ComentarioService,
     private likesvc:LikeService,
-    private router:Router,
+    //private router:Router,
+    public photo_data_svc:PostPhotoDataService,
+    private _location:Location,
   )
   {}
   ngOnInit(): void {
     this.indice = this.routeract.snapshot.queryParams['index'];
-    this.publicacion = this.routeract.snapshot.data['publicacion'].data
-    this.UsuarioLogged = this.routeract.snapshot.data['usuario'].user;
+    //this.publicacion = this.routeract.snapshot.data['publicacion'].data
+    this.publicacion = this.photo_data_svc.publicacion;
+    //this.UsuarioLogged = this.routeract.snapshot.data['usuario'].user;
+    this.UsuarioLogged = this.photo_data_svc.UsuarioLogged;
     this.loadCmtIMGS();
-    //console.log('publicacion->',this.comentarios_img_list[this.indice]);
+
   }
 
   ////CRUD COMENTARIOS IMAGEN
@@ -184,7 +190,8 @@ export class FotosPostComponent implements OnInit{
     return ret;
   }
   routeback(){
-    this.router.navigate(['..']);
+   // this.router.navigate(['publicaciones']);
+    this._location.back();
   }
 
   cantComentariosIMG():number{
